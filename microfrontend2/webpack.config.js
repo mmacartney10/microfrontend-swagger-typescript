@@ -16,18 +16,19 @@ const config = {
     entry: './src/index.tsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
+        publicPath: 'http://localhost:3002/',
     },
     devServer: {
         open: true,
-        port: 3000,
+        port: 3002,
         host: 'localhost',
     },
     plugins: [
         new ModuleFederationPlugin({
-            name: 'host',
-            remotes: {
-                'microfrontend': 'microfrontend@http://localhost:3001/remoteEntry.js',
-                'microfrontend2': 'microfrontend2@http://localhost:3002/remoteEntry.js',
+            name: 'microfrontend2',
+            filename: 'remoteEntry.js',
+            exposes: {
+                './App': './src/App.tsx',
             },
             shared: {
                 react: { singleton: true },

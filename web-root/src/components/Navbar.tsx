@@ -1,9 +1,8 @@
-
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
- return (
+  return (
     <nav>
       <ul>
         <li>
@@ -11,7 +10,9 @@ const NavBar = () => {
             to="/"
             className="btn-secondary"
             style={({ isActive }) => ({
-              backgroundColor: isActive ? 'var(--color-primary)' : 'var(--color-secondary)',
+              backgroundColor: isActive
+                ? "var(--color-primary)"
+                : "var(--color-secondary)",
             })}
           >
             Home
@@ -22,7 +23,9 @@ const NavBar = () => {
             to="/about"
             className="btn-secondary"
             style={({ isActive }) => ({
-              backgroundColor: isActive ? 'var(--color-primary)' : 'var(--color-secondary)',
+              backgroundColor: isActive
+                ? "var(--color-primary)"
+                : "var(--color-secondary)",
             })}
           >
             About
@@ -33,10 +36,25 @@ const NavBar = () => {
             to="/microfrontend"
             className="btn-secondary"
             style={({ isActive }) => ({
-              backgroundColor: isActive ? 'var(--color-primary)' : 'var(--color-secondary)',
+              backgroundColor: isActive
+                ? "var(--color-primary)"
+                : "var(--color-secondary)",
             })}
           >
             Microfrontend
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/microfrontend2"
+            className="btn-secondary"
+            style={({ isActive }) => ({
+              backgroundColor: isActive
+                ? "var(--color-primary)"
+                : "var(--color-secondary)",
+            })}
+          >
+            Microfrontend 2
           </NavLink>
         </li>
       </ul>
