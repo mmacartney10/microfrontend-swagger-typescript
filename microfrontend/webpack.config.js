@@ -13,7 +13,7 @@ const stylesHandler = 'style-loader';
 
 
 const config = {
-    entry: './src/index.jsx',
+    entry: './src/index.tsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
         publicPath: 'http://localhost:3001/',
@@ -28,7 +28,7 @@ const config = {
             name: 'microfrontend',
             filename: 'remoteEntry.js',
             exposes: {
-                './App': './src/RouterlessApp.jsx',
+                './App': './src/RouterlessApp.tsx',
             },
             shared: {
                 react: { singleton: true },
@@ -45,6 +45,18 @@ const config = {
     ],
     module: {
         rules: [
+            {
+                test: /\.(ts|tsx)$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
+                        },
+                    },
+                ],
+            },
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
@@ -72,7 +84,7 @@ const config = {
         alias: {
             "@": path.resolve(__dirname, "./src/"),
         },
-        extensions: ['.jsx', '.js'],
+        extensions: ['.tsx', '.ts', '.jsx', '.js'],
     },
 };
 
