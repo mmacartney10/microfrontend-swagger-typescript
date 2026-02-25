@@ -1,0 +1,135 @@
+openapi: 3.0.0
+info:
+  title: Users API
+  version: 1.0.0
+  description: API for managing users and user accounts
+tags:
+  - name: UsersService
+    description: Operations related to managing users
+paths:
+  /api/users:
+    get:
+      tags:
+        - UsersService
+      summary: Get list of users
+      responses:
+        "200":
+          description: Successful response with users data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+    post:
+      tags:
+        - UsersService
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "201":
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Invalid input
+  /api/users/{id}:
+    put:
+      tags:
+        - UsersService
+      summary: Update an existing user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "200":
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: User not found
+        "400":
+          description: Invalid input
+components:
+  schemas:
+    UserPreferences:
+      type: object
+      properties:
+        theme:
+          type: string
+          enum: [light, dark]
+        notifications:
+          type: boolean
+        language:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        firstName:
+          type: string
+        lastName:
+          type: string
+        role:
+          type: string
+          enum: [admin, user, moderator]
+        active:
+          type: boolean
+        lastLogin:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        preferences:
+          $ref: "#/components/schemas/UserPreferences"
+    UserInput:
+      type: object
+      required:
+        - username
+        - email
+        - firstName
+        - lastName
+        - role
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        firstName:
+          type: string
+        lastName:
+          type: string
+        role:
+          type: string
+          enum: [admin, user, moderator]
+        active:
+          type: boolean
+          default: true
+        preferences:
+          $ref: "#/components/schemas/UserPreferences"

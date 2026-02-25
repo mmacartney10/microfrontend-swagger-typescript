@@ -1,0 +1,116 @@
+openapi: 3.0.0
+info:
+  title: Tasks API
+  version: 1.0.0
+  description: API for managing tasks and todo items
+tags:
+  - name: TasksService
+    description: Operations related to managing tasks
+paths:
+  /api/tasks:
+    get:
+      tags:
+        - TasksService
+      summary: Get list of tasks
+      responses:
+        "200":
+          description: Successful response with tasks data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+    post:
+      tags:
+        - TasksService
+      summary: Create a new task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskInput"
+      responses:
+        "201":
+          description: Task created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "400":
+          description: Invalid input
+  /api/tasks/{id}:
+    put:
+      tags:
+        - TasksService
+      summary: Update an existing task
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskInput"
+      responses:
+        "200":
+          description: Task updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "404":
+          description: Task not found
+        "400":
+          description: Invalid input
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        completed:
+          type: boolean
+        priority:
+          type: string
+          enum: [low, medium, high]
+        dueDate:
+          type: string
+          format: date-time
+        assignedTo:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    TaskInput:
+      type: object
+      required:
+        - title
+        - description
+        - priority
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        completed:
+          type: boolean
+          default: false
+        priority:
+          type: string
+          enum: [low, medium, high]
+        dueDate:
+          type: string
+          format: date-time
+        assignedTo:
+          type: string

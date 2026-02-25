@@ -28,7 +28,8 @@ const config = {
             name: 'microfrontend',
             filename: 'remoteEntry.js',
             exposes: {
-                './App': './src/RouterlessApp.tsx',
+                './App': './src/App.tsx',
+                './RouterlessApp': './src/RouterlessApp.tsx',
             },
             shared: {
                 react: { singleton: true },

@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 
 // Dynamically import the microfrontend app (without Router)
-const MicrofrontendApp = React.lazy(() => import("microfrontend/App"));
+const MicrofrontendApp = React.lazy(() => import("microfrontend/RouterlessApp"));
 
 const MicrofrontendWrapper: React.FC = () => {
   return (
