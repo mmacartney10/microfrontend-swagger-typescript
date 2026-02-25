@@ -29,7 +29,6 @@ const config = {
             filename: 'remoteEntry.js',
             exposes: {
                 './App': './src/App.tsx',
-                './RouterlessApp': './src/RouterlessApp.tsx',
             },
             shared: {
                 react: { singleton: true },

@@ -1,9 +1,8 @@
-
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
- return (
+  return (
     <nav>
       <ul>
         <li>
@@ -11,7 +10,9 @@ const NavBar = () => {
             to="/"
             className="btn-secondary"
             style={({ isActive }) => ({
-              backgroundColor: isActive ? 'var(--color-primary)' : 'var(--color-secondary)',
+              backgroundColor: isActive
+                ? "var(--color-primary)"
+                : "var(--color-secondary)",
             })}
           >
             🏠 Home
@@ -22,7 +23,9 @@ const NavBar = () => {
             to="/about"
             className="btn-secondary"
             style={({ isActive }) => ({
-              backgroundColor: isActive ? 'var(--color-primary)' : 'var(--color-secondary)',
+              backgroundColor: isActive
+                ? "var(--color-primary)"
+                : "var(--color-secondary)",
             })}
           >
             ℹ️ About
@@ -33,7 +36,9 @@ const NavBar = () => {
             to="/tasks"
             className="btn-secondary"
             style={({ isActive }) => ({
-              backgroundColor: isActive ? 'var(--color-primary)' : 'var(--color-secondary)',
+              backgroundColor: isActive
+                ? "var(--color-primary)"
+                : "var(--color-secondary)",
             })}
           >
             ✅ Tasks
@@ -44,7 +49,9 @@ const NavBar = () => {
             to="/products"
             className="btn-secondary"
             style={({ isActive }) => ({
-              backgroundColor: isActive ? 'var(--color-primary)' : 'var(--color-secondary)',
+              backgroundColor: isActive
+                ? "var(--color-primary)"
+                : "var(--color-secondary)",
             })}
           >
             📦 Products
@@ -55,7 +62,9 @@ const NavBar = () => {
             to="/orders"
             className="btn-secondary"
             style={({ isActive }) => ({
-              backgroundColor: isActive ? 'var(--color-primary)' : 'var(--color-secondary)',
+              backgroundColor: isActive
+                ? "var(--color-primary)"
+                : "var(--color-secondary)",
             })}
           >
             🛒 Orders
@@ -66,7 +75,9 @@ const NavBar = () => {
             to="/users"
             className="btn-secondary"
             style={({ isActive }) => ({
-              backgroundColor: isActive ? 'var(--color-primary)' : 'var(--color-secondary)',
+              backgroundColor: isActive
+                ? "var(--color-primary)"
+                : "var(--color-secondary)",
             })}
           >
             👥 Users
@@ -77,7 +88,9 @@ const NavBar = () => {
             to="/categories"
             className="btn-secondary"
             style={({ isActive }) => ({
-              backgroundColor: isActive ? 'var(--color-primary)' : 'var(--color-secondary)',
+              backgroundColor: isActive
+                ? "var(--color-primary)"
+                : "var(--color-secondary)",
             })}
           >
             🏷️ Categories
@@ -88,7 +101,9 @@ const NavBar = () => {
             to="/analytics"
             className="btn-secondary"
             style={({ isActive }) => ({
-              backgroundColor: isActive ? 'var(--color-primary)' : 'var(--color-secondary)',
+              backgroundColor: isActive
+                ? "var(--color-primary)"
+                : "var(--color-secondary)",
             })}
           >
             📊 Analytics
@@ -99,7 +114,9 @@ const NavBar = () => {
             to="/health"
             className="btn-secondary"
             style={({ isActive }) => ({
-              backgroundColor: isActive ? 'var(--color-primary)' : 'var(--color-secondary)',
+              backgroundColor: isActive
+                ? "var(--color-primary)"
+                : "var(--color-secondary)",
             })}
           >
             🔍 Health
@@ -110,7 +127,9 @@ const NavBar = () => {
             to="/settings"
             className="btn-secondary"
             style={({ isActive }) => ({
-              backgroundColor: isActive ? 'var(--color-primary)' : 'var(--color-secondary)',
+              backgroundColor: isActive
+                ? "var(--color-primary)"
+                : "var(--color-secondary)",
             })}
           >
             ⚙️ Settings

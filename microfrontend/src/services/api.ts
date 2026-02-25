@@ -1,11 +1,11 @@
-import { Api } from '@swagger-ts/api-client';
+import { Api } from "@swagger-ts/api-client";
 
 // Create API client instance
 export const apiClient = new Api({
-  baseUrl: 'http://localhost:4000',
+  baseUrl: "http://localhost:4000",
   baseApiParams: {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   },
 });
