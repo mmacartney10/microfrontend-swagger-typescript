@@ -1,37 +1,33 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { productsService } from "../services/api";
-import { ProductInput } from "@swagger-ts/api-client";
+import { Api, ProductInput } from "../Api";
 
-// Query keys
+type ProductsService = Api<any>["productsService"];
+
 const QUERY_KEYS = {
   products: ["products"] as const,
   product: (id: string) => ["products", id] as const,
 };
 
-// Get all products
-export const useProducts = () => {
+export const useProducts = (service: ProductsService) => {
   return useQuery({
     queryKey: QUERY_KEYS.products,
-    queryFn: () => productsService.productsList(),
+    queryFn: () => service.productsList(),
   });
 };
 
-// Get single product
-export const useProduct = (id: string) => {
+export const useProduct = (service: ProductsService, id: string) => {
   return useQuery({
     queryKey: QUERY_KEYS.product(id),
-    queryFn: () => productsService.productsDetail({ id }),
+    queryFn: () => service.productsDetail({ id }),
     enabled: !!id,
   });
 };
 
-// Create product mutation
-export const useCreateProduct = () => {
+export const useCreateProduct = (service: ProductsService) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (product: ProductInput) =>
-      productsService.productsCreate(product),
+    mutationFn: (product: ProductInput) => service.productsCreate(product),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.products });
     },

@@ -13,10 +13,12 @@
   "files": [
     "dist/**/*"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "@tanstack/react-query": "^5.0.0"
+  },
   "peerDependencies": {
     "typescript": "^4.9.0 || ^5.0.0"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
-  "yalcSig": "91173f597bb70dd8db1ec5979eeaf91b"
+  "yalcSig": "491b6137a69d350d5462880d2ba04b36"
 }

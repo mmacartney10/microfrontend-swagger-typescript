@@ -1,21 +1,30 @@
 import React, { useState } from "react";
-import { useTasks, useCreateTask, useUpdateTask } from "../hooks/useTasks";
 import {
+  useTasks,
+  useCreateTask,
+  useUpdateTask,
   useProducts,
   useProduct,
   useCreateProduct,
-} from "../hooks/useProducts";
-import { Task, TaskInput, ProductInput } from "@swagger-ts/api-client";
+  Task,
+  TaskInput,
+  ProductInput,
+} from "@swagger-ts/api-client";
+import { tasksService, productsService } from "../services/api";
 
 const TaskProductManager: React.FC = () => {
-  const { data: tasks, isLoading: tasksLoading } = useTasks();
-  const { data: products, isLoading: productsLoading } = useProducts();
+  const { data: tasks, isLoading: tasksLoading } = useTasks(tasksService);
+  const { data: products, isLoading: productsLoading } =
+    useProducts(productsService);
   const [selectedProductId, setSelectedProductId] = useState<string>("");
-  const { data: selectedProduct } = useProduct(selectedProductId);
+  const { data: selectedProduct } = useProduct(
+    productsService,
+    selectedProductId,
+  );
 
-  const createTask = useCreateTask();
-  const updateTask = useUpdateTask();
-  const createProduct = useCreateProduct();
+  const createTask = useCreateTask(tasksService);
+  const updateTask = useUpdateTask(tasksService);
+  const createProduct = useCreateProduct(productsService);
 
   const handleCreateTask = () => {
     const priorities: ("low" | "medium" | "high")[] = ["low", "medium", "high"];

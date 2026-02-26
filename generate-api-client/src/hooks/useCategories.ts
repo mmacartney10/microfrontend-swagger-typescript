@@ -1,39 +1,35 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { categoriesService } from "../services/api";
-import { CategoryInput } from "@swagger-ts/api-client";
+import { Api, CategoryInput } from "../Api";
 
-// Query keys
+type CategoriesService = Api<any>["categoriesService"];
+
 const QUERY_KEYS = {
   categories: ["categories"] as const,
 };
 
-// Get all categories
-export const useCategories = () => {
+export const useCategories = (service: CategoriesService) => {
   return useQuery({
     queryKey: QUERY_KEYS.categories,
-    queryFn: () => categoriesService.categoriesList(),
+    queryFn: () => service.categoriesList(),
   });
 };
 
-// Create category mutation
-export const useCreateCategory = () => {
+export const useCreateCategory = (service: CategoriesService) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (category: CategoryInput) =>
-      categoriesService.categoriesCreate(category),
+    mutationFn: (category: CategoryInput) => service.categoriesCreate(category),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.categories });
     },
   });
 };
 
-// Delete category mutation
-export const useDeleteCategory = () => {
+export const useDeleteCategory = (service: CategoriesService) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => categoriesService.categoriesDelete({ id }),
+    mutationFn: (id: string) => service.categoriesDelete({ id }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.categories });
     },

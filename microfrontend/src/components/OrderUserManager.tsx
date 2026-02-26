@@ -1,17 +1,26 @@
 import React, { useState } from "react";
-import { useOrders, useCreateOrder, useOrder } from "../hooks/useOrders";
-import { useUsers, useCreateUser, useUpdateUser } from "../hooks/useUsers";
-import { User, OrderInput, UserInput } from "@swagger-ts/api-client";
+import {
+  useOrders,
+  useCreateOrder,
+  useOrder,
+  useUsers,
+  useCreateUser,
+  useUpdateUser,
+  User,
+  OrderInput,
+  UserInput,
+} from "@swagger-ts/api-client";
+import { ordersService, usersService } from "../services/api";
 
 const OrderUserManager: React.FC = () => {
-  const { data: orders, isLoading: ordersLoading } = useOrders();
-  const { data: users, isLoading: usersLoading } = useUsers();
+  const { data: orders, isLoading: ordersLoading } = useOrders(ordersService);
+  const { data: users, isLoading: usersLoading } = useUsers(usersService);
   const [selectedOrderId, setSelectedOrderId] = useState<string>("");
-  const { data: selectedOrder } = useOrder(selectedOrderId);
+  const { data: selectedOrder } = useOrder(ordersService, selectedOrderId);
 
-  const createOrder = useCreateOrder();
-  const createUser = useCreateUser();
-  const updateUser = useUpdateUser();
+  const createOrder = useCreateOrder(ordersService);
+  const createUser = useCreateUser(usersService);
+  const updateUser = useUpdateUser(usersService);
 
   const handleCreateOrder = () => {
     const statuses = ["pending", "processing", "shipped", "delivered"] as const;

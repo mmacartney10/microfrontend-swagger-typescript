@@ -1,39 +1,36 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { tasksService } from "../services/api";
-import { TaskInput } from "@swagger-ts/api-client";
+import { Api, TaskInput } from "../Api";
 
-// Query keys
+type TasksService = Api<any>["tasksService"];
+
 const QUERY_KEYS = {
   tasks: ["tasks"] as const,
 };
 
-// Get all tasks
-export const useTasks = () => {
+export const useTasks = (service: TasksService) => {
   return useQuery({
     queryKey: QUERY_KEYS.tasks,
-    queryFn: () => tasksService.tasksList(),
+    queryFn: () => service.tasksList(),
   });
 };
 
-// Create task mutation
-export const useCreateTask = () => {
+export const useCreateTask = (service: TasksService) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (task: TaskInput) => tasksService.tasksCreate(task),
+    mutationFn: (task: TaskInput) => service.tasksCreate(task),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.tasks });
     },
   });
 };
 
-// Update task mutation
-export const useUpdateTask = () => {
+export const useUpdateTask = (service: TasksService) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({ id, task }: { id: string; task: TaskInput }) =>
-      tasksService.tasksUpdate({ id }, task),
+      service.tasksUpdate({ id }, task),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.tasks });
     },

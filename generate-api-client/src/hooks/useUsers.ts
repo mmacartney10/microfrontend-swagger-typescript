@@ -1,39 +1,36 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { usersService } from "../services/api";
-import { UserInput } from "@swagger-ts/api-client";
+import { Api, UserInput } from "../Api";
 
-// Query keys
+type UsersService = Api<any>["usersService"];
+
 const QUERY_KEYS = {
   users: ["users"] as const,
 };
 
-// Get all users
-export const useUsers = () => {
+export const useUsers = (service: UsersService) => {
   return useQuery({
     queryKey: QUERY_KEYS.users,
-    queryFn: () => usersService.usersList(),
+    queryFn: () => service.usersList(),
   });
 };
 
-// Create user mutation
-export const useCreateUser = () => {
+export const useCreateUser = (service: UsersService) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (user: UserInput) => usersService.usersCreate(user),
+    mutationFn: (user: UserInput) => service.usersCreate(user),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.users });
     },
   });
 };
 
-// Update user mutation
-export const useUpdateUser = () => {
+export const useUpdateUser = (service: UsersService) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({ id, user }: { id: string; user: UserInput }) =>
-      usersService.usersUpdate({ id }, user),
+      service.usersUpdate({ id }, user),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.users });
     },

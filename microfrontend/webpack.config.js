@@ -34,6 +34,7 @@ const config = {
                 react: { singleton: true },
                 'react-dom': { singleton: true },
                 'react-router-dom': { singleton: true },
+                '@tanstack/react-query': { singleton: true },
             },
         }),
         new HtmlWebpackPlugin({
