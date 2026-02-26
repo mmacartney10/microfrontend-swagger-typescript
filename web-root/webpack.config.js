@@ -21,6 +21,7 @@ const config = {
         open: true,
         port: 3000,
         host: 'localhost',
+        historyApiFallback: true,
     },
     plugins: [
         new ModuleFederationPlugin({
