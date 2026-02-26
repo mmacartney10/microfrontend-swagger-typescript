@@ -1,34 +1,27 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "../components/Home";
-import About from "../components/About";
-import Navbar from "../components/Navbar";
-import TasksPage from "../components/TasksPage";
-import ProductsPage from "../components/ProductsPage";
-import OrdersPage from "../components/OrdersPage";
-import UsersPage from "../components/UsersPage";
-import CategoriesPage from "../components/CategoriesPage";
-import AnalyticsDashboard from "../components/AnalyticsDashboard";
-import HealthCheckDashboard from "../components/HealthCheckDashboard";
-import SettingsPage from "../components/SettingsPage";
+import { Route, Routes } from "react-router-dom";
+import CategoryCleaner from "../components/CategoryCleaner";
+import OrderManager from "../components/OrderManager";
+import ProductViewer from "../components/ProductViewer";
+import UserManager from "../components/UserManager";
+
+export const basePath = "/microfrontend2";
+
+export const navLinks = [
+  { path: "", label: "Category Cleaner" },
+  { path: "/orders", label: "Order Manager" },
+  { path: "/products", label: "Product Viewer" },
+  { path: "/tasks", label: "User Manager" },
+];
 
 function AppRouter() {
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About msg="React" />} />
-        <Route path="/tasks" element={<TasksPage />} />
-        <Route path="/products" element={<ProductsPage />} />
-        <Route path="/orders" element={<OrdersPage />} />
-        <Route path="/users" element={<UsersPage />} />
-        <Route path="/categories" element={<CategoriesPage />} />
-        <Route path="/analytics" element={<AnalyticsDashboard />} />
-        <Route path="/health" element={<HealthCheckDashboard />} />
-        <Route path="/settings" element={<SettingsPage />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<CategoryCleaner />} />
+      <Route path="/orders" element={<OrderManager />} />
+      <Route path="/products" element={<ProductViewer />} />
+      <Route path="/tasks" element={<UserManager />} />
+    </Routes>
   );
 }
 

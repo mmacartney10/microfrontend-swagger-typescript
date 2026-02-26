@@ -2,74 +2,31 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
+  const links = [
+    { to: "/", label: "Home" },
+    { to: "/microfrontend", label: "Microfrontend" },
+    { to: "/microfrontend2", label: "Microfrontend 2" },
+    { to: "/microfrontend3", label: "Microfrontend 3" },
+  ];
+
   return (
     <nav>
       <ul>
-        <li>
-          <NavLink
-            to="/"
-            className="btn-secondary"
-            style={({ isActive }) => ({
-              backgroundColor: isActive
-                ? "var(--color-primary)"
-                : "var(--color-secondary)",
-            })}
-          >
-            Home
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/about"
-            className="btn-secondary"
-            style={({ isActive }) => ({
-              backgroundColor: isActive
-                ? "var(--color-primary)"
-                : "var(--color-secondary)",
-            })}
-          >
-            About
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/microfrontend"
-            className="btn-secondary"
-            style={({ isActive }) => ({
-              backgroundColor: isActive
-                ? "var(--color-primary)"
-                : "var(--color-secondary)",
-            })}
-          >
-            Microfrontend
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/microfrontend2"
-            className="btn-secondary"
-            style={({ isActive }) => ({
-              backgroundColor: isActive
-                ? "var(--color-primary)"
-                : "var(--color-secondary)",
-            })}
-          >
-            Microfrontend 2
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/microfrontend3"
-            className="btn-secondary"
-            style={({ isActive }) => ({
-              backgroundColor: isActive
-                ? "var(--color-primary)"
-                : "var(--color-secondary)",
-            })}
-          >
-            Microfrontend 3
-          </NavLink>
-        </li>
+        {links.map((link) => (
+          <li key={link.to}>
+            <NavLink
+              to={link.to}
+              className="btn-secondary"
+              style={({ isActive }) => ({
+                backgroundColor: isActive
+                  ? "var(--color-primary)"
+                  : "var(--color-secondary)",
+              })}
+            >
+              {link.label}
+            </NavLink>
+          </li>
+        ))}
       </ul>
     </nav>
   );

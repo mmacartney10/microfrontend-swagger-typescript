@@ -1,34 +1,24 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "../components/Home";
-import About from "../components/About";
-import Navbar from "../components/Navbar";
-import TasksPage from "../components/TasksPage";
-import ProductsPage from "../components/ProductsPage";
-import OrdersPage from "../components/OrdersPage";
-import UsersPage from "../components/UsersPage";
-import CategoriesPage from "../components/CategoriesPage";
-import AnalyticsDashboard from "../components/AnalyticsDashboard";
-import HealthCheckDashboard from "../components/HealthCheckDashboard";
-import SettingsPage from "../components/SettingsPage";
+import { Route, Routes } from "react-router-dom";
+import CategorySystemMonitor from "../components/CategorySystemMonitor";
+import OrderUserManager from "../components/OrderUserManager";
+import TaskProductManager from "../components/TaskProductManager";
+
+export const basePath = "/microfrontend";
+
+export const navLinks = [
+  { path: "", label: "Category System Monitor" },
+  { path: "/order", label: "Order User Manager" },
+  { path: "/tasks", label: "Task Product Manager" },
+];
 
 function AppRouter() {
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About msg="React" />} />
-        <Route path="/tasks" element={<TasksPage />} />
-        <Route path="/products" element={<ProductsPage />} />
-        <Route path="/orders" element={<OrdersPage />} />
-        <Route path="/users" element={<UsersPage />} />
-        <Route path="/categories" element={<CategoriesPage />} />
-        <Route path="/analytics" element={<AnalyticsDashboard />} />
-        <Route path="/health" element={<HealthCheckDashboard />} />
-        <Route path="/settings" element={<SettingsPage />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<CategorySystemMonitor />} />
+      <Route path="/order" element={<OrderUserManager />} />
+      <Route path="/tasks" element={<TaskProductManager />} />
+    </Routes>
   );
 }
 

@@ -1,6 +1,5 @@
 import { Api } from "@swagger-ts/api-client";
 
-// Create API client instance
 export const apiClient = new Api({
   baseUrl: "http://localhost:4000",
   baseApiParams: {
@@ -10,5 +9,10 @@ export const apiClient = new Api({
   },
 });
 
-// Export the API client for direct use in hooks
-export default apiClient;
+export const {
+  tasksService,
+  productsService,
+  ordersService,
+  usersService,
+  categoriesService,
+} = apiClient;
