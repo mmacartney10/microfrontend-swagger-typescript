@@ -9,3 +9,9 @@ declare module "microfrontend2/App" {
   const App: React.ComponentType;
   export default App;
 }
+
+declare module "microfrontend3/App" {
+  import React from "react";
+  const App: React.ComponentType;
+  export default App;
+}

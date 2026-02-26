@@ -1,34 +1,31 @@
-// Generated using webpack-cli https://github.com/webpack/webpack-cli
-
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
-
-
 const stylesHandler = 'style-loader';
-
-
 
 const config = {
     entry: './src/index.tsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
+        publicPath: 'http://localhost:3003/',
     },
     devServer: {
         open: true,
-        port: 3000,
+        port: 3003,
         host: 'localhost',
+    },
+    optimization: {
+        splitChunks: false,
     },
     plugins: [
         new ModuleFederationPlugin({
-            name: 'host',
-            remotes: {
-                'microfrontend': 'microfrontend@http://localhost:3001/remoteEntry.js',
-                'microfrontend2': 'microfrontend2@http://localhost:3002/remoteEntry.js',
-                'microfrontend3': 'microfrontend3@http://localhost:3003/remoteEntry.js',
+            name: 'microfrontend3',
+            filename: 'remoteEntry.js',
+            exposes: {
+                './App': './src/App.tsx',
             },
             shared: {
                 react: { singleton: true },
@@ -39,9 +36,6 @@ const config = {
         new HtmlWebpackPlugin({
             template: 'index.html',
         }),
-
-        // Add your plugins here
-        // Learn more about plugins from https://webpack.js.org/configuration/plugins/
     ],
     module: {
         rules: [
@@ -91,10 +85,7 @@ const config = {
 module.exports = () => {
     if (isProduction) {
         config.mode = 'production';
-        
-        
         config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
-        
     } else {
         config.mode = 'development';
     }

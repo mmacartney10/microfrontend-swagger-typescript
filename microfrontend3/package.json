@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "description": "Microfrontend2 remote module",
-  "name": "microfrontend2-remote",
+  "description": "Microfrontend3 remote module",
+  "name": "microfrontend3-remote",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",

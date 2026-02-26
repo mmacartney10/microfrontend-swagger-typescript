@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "../components/Home";
 import About from "../components/About";
 import Navbar from "../components/Navbar";
-import MicrofrontendApp from "../components/MicrofrontendApp";
+import MicrofrontendLoader from "../components/MicrofrontendLoader";
 
 function AppRouter() {
   return (
@@ -14,11 +14,19 @@ function AppRouter() {
         <Route path="/about" element={<About msg="React" />} />
         <Route
           path="/microfrontend/*"
-          element={<MicrofrontendApp app="microfrontend" />}
+          element={<MicrofrontendLoader name="microfrontend" />}
         />
         <Route
           path="/microfrontend2/*"
-          element={<MicrofrontendApp app="microfrontend2" />}
+          element={<MicrofrontendLoader name="microfrontend2" />}
+        />
+        <Route
+          path="/microfrontend3/*"
+          element={<MicrofrontendLoader name="microfrontend3" />}
+        />
+        <Route
+          path="/microfrontend4/*"
+          element={<MicrofrontendLoader name="microfrontend4" />}
         />
       </Routes>
     </Router>
