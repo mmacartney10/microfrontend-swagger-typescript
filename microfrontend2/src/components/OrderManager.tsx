@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { useOrders, useCreateOrder, useOrder } from "../hooks/useOrders";
-import { OrderInput } from "@swagger-ts/api-client";
+import {
+  OrderInput,
+  useOrders,
+  useCreateOrder,
+  useOrder,
+} from "@swagger-ts/api-client";
+import { ordersService } from "../services/api";
 
 const OrderManager: React.FC = () => {
-  const { data: orders, isLoading, error } = useOrders();
+  const { data: orders, isLoading, error } = useOrders(ordersService);
   const [selectedOrderId, setSelectedOrderId] = useState<string>("");
-  const { data: selectedOrder } = useOrder(selectedOrderId);
-  const createOrder = useCreateOrder();
+  const { data: selectedOrder } = useOrder(ordersService, selectedOrderId);
+  const createOrder = useCreateOrder(ordersService);
 
   const handleCreateOrder = () => {
     const newOrder: OrderInput = {

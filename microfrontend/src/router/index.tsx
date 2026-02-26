@@ -14,13 +14,11 @@ export const navLinks = [
 
 function AppRouter() {
   return (
-    <div style={{ padding: "0 20px" }}>
-      <Routes>
-        <Route path="/" element={<CategorySystemMonitor />} />
-        <Route path="/order" element={<OrderUserManager />} />
-        <Route path="/tasks" element={<TaskProductManager />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<CategorySystemMonitor />} />
+      <Route path="/order" element={<OrderUserManager />} />
+      <Route path="/tasks" element={<TaskProductManager />} />
+    </Routes>
   );
 }
 

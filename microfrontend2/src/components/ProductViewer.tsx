@@ -1,8 +1,9 @@
 import React from "react";
-import { useProducts } from "../hooks/useProducts";
+import { useProducts } from "@swagger-ts/api-client";
+import { productsService } from "../services/api";
 
 const ProductViewer: React.FC = () => {
-  const { data: products, isLoading, error } = useProducts();
+  const { data: products, isLoading, error } = useProducts(productsService);
 
   if (isLoading) return <div>Loading products...</div>;
   if (error) return <div>Error loading products: {String(error)}</div>;

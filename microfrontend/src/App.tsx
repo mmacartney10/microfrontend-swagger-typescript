@@ -6,7 +6,9 @@ const App: React.FC = () => {
   return (
     <div>
       <Navigation />
-      <AppRouter />
+      <div style={{ padding: "0 20px" }}>
+        <AppRouter />
+      </div>
     </div>
   );
 };

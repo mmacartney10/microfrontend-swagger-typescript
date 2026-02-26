@@ -1,11 +1,17 @@
 import React from "react";
-import { useTasks, useCreateTask, useUpdateTask } from "../hooks/useTasks";
-import { Task, TaskInput } from "@swagger-ts/api-client";
+import {
+  useTasks,
+  useCreateTask,
+  useUpdateTask,
+  Task,
+  TaskInput,
+} from "@swagger-ts/api-client";
+import { tasksService } from "../services/api";
 
 const TaskList: React.FC = () => {
-  const { data: tasks, isLoading, error } = useTasks();
-  const createTask = useCreateTask();
-  const updateTask = useUpdateTask();
+  const { data: tasks, isLoading, error } = useTasks(tasksService);
+  const createTask = useCreateTask(tasksService);
+  const updateTask = useUpdateTask(tasksService);
 
   const handleCreateTask = () => {
     const newTask: TaskInput = {

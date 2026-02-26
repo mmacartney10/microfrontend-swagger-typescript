@@ -3,14 +3,18 @@ import {
   useProducts,
   useProduct,
   useCreateProduct,
-} from "../hooks/useProducts";
-import { ProductInput } from "@swagger-ts/api-client";
+  ProductInput,
+} from "@swagger-ts/api-client";
+import { productsService } from "../services/api";
 
 const ProductList: React.FC = () => {
-  const { data: products, isLoading, error } = useProducts();
+  const { data: products, isLoading, error } = useProducts(productsService);
   const [selectedProductId, setSelectedProductId] = useState<string>("");
-  const { data: selectedProduct } = useProduct(selectedProductId);
-  const createProduct = useCreateProduct();
+  const { data: selectedProduct } = useProduct(
+    productsService,
+    selectedProductId,
+  );
+  const createProduct = useCreateProduct(productsService);
 
   const handleCreateProduct = () => {
     const newProduct: ProductInput = {

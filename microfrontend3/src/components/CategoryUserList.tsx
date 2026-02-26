@@ -1,12 +1,17 @@
 import React from "react";
-import { useCategories, useCreateCategory } from "../hooks/useCategories";
-import { useUsers } from "../hooks/useUsers";
-import { CategoryInput } from "@swagger-ts/api-client";
+import {
+  useCategories,
+  useCreateCategory,
+  useUsers,
+  CategoryInput,
+} from "@swagger-ts/api-client";
+import { categoriesService, usersService } from "../services/api";
 
 const CategoryUserList: React.FC = () => {
-  const { data: categories, isLoading: categoriesLoading } = useCategories();
-  const { data: users, isLoading: usersLoading } = useUsers();
-  const createCategory = useCreateCategory();
+  const { data: categories, isLoading: categoriesLoading } =
+    useCategories(categoriesService);
+  const { data: users, isLoading: usersLoading } = useUsers(usersService);
+  const createCategory = useCreateCategory(categoriesService);
 
   const handleCreateCategory = () => {
     const colors = ["#FF6B6B", "#cd4ea7ff", "#45B7D1", "#96CEB4", "#FFEAA7"];
