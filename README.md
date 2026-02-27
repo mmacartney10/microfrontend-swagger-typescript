@@ -36,6 +36,19 @@ cd generate-api-client
 npm run generate
 ```
 
+You'll need to install yalc to locally create the package.
+Run the following command to publish
+
+```sh
+npm run publish:local
+```
+
+You can then run the following command in the microfrontends to consume the package
+
+```sh
+yalc update
+```
+
 ### 3. Start Microfrontends
 
 In separate terminals, run:
