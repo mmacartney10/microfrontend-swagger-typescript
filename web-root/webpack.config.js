@@ -26,11 +26,11 @@ const config = {
     plugins: [
         new ModuleFederationPlugin({
             name: 'host',
-            remotes: {
-                'microfrontend': 'microfrontend@http://localhost:3001/remoteEntry.js',
-                'microfrontend2': 'microfrontend2@http://localhost:3002/remoteEntry.js',
-                'microfrontend3': 'microfrontend3@http://localhost:3003/remoteEntry.js',
-            },
+            // remotes: {
+            //     microfrontend: 'microfrontend@http://localhost:3001/remoteEntry.js',
+            //     microfrontend2: 'microfrontend2@http://localhost:3002/remoteEntry.js',
+            //     microfrontend3: 'microfrontend3@http://localhost:3003/remoteEntry.js',
+            // },
             shared: {
                 react: { singleton: true },
                 'react-dom': { singleton: true },

@@ -52,7 +52,6 @@ const ProductViewer: React.FC = () => {
           display: "grid",
           gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
           gap: "10px",
-          maxHeight: "200px",
           overflowY: "auto",
         }}
       >

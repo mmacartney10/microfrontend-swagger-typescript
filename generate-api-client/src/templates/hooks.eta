@@ -38,7 +38,6 @@ export const useCreate<%= name %> = (service: <%= serviceType %>) => {
   return useMutation({
     mutationFn: (data: <%= requestBodyType %>) => service.<%= method %>(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["<%= name.toLowerCase() %>List"] });
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.list });
     },
   });
@@ -51,7 +50,6 @@ export const useUpdate<%= name %> = (service: <%= serviceType %>) => {
   return useMutation({
     mutationFn: ({ params, data }: { params: <%= route.requestParamsType %>, data: <%= route.requestBodyType %> }) => service.<%= method %>(params, data),
     onSuccess: () => {
-      <% /* queryClient.invalidateQueries({ queryKey: ["<%= name.toLowerCase() %>List"] }); */ %>
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.list });
     },
   });
@@ -64,7 +62,6 @@ export const useDelete<%= name %> = (service: <%= serviceType %>) => {
   return useMutation({
     mutationFn: (params: <%= requestParamsType %>) => service.<%= method %>(params),
     onSuccess: () => {
-      <% /* queryClient.invalidateQueries({ queryKey: ["<%= name.toLowerCase() %>List"] }); */ %>
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.list });
     },
   });

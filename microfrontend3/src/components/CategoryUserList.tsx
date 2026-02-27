@@ -71,7 +71,7 @@ const CategoryUserList: React.FC = () => {
         {usersLoading ? (
           <div>Loading users...</div>
         ) : (
-          <div style={{ maxHeight: "150px", overflowY: "auto" }}>
+          <div style={{ overflowY: "auto" }}>
             {users?.data?.map((user) => (
               <div
                 key={user.id}

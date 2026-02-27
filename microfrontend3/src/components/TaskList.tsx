@@ -51,7 +51,7 @@ const TaskList: React.FC = () => {
         {createTask.isPending ? "Creating..." : "Add Task"}
       </button>
 
-      <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+      <div style={{ overflowY: "auto" }}>
         {tasks?.data?.map((task) => (
           <div
             key={task.id}

@@ -94,7 +94,6 @@ const TaskProductManager: React.FC = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              maxHeight: "120px",
               overflowY: "auto",
             }}
           >
@@ -144,7 +143,7 @@ const TaskProductManager: React.FC = () => {
             {productsLoading ? (
               <div>Loading products...</div>
             ) : (
-              <div style={{ maxHeight: "100px", overflowY: "auto" }}>
+              <div style={{ overflowY: "auto" }}>
                 {products?.data?.slice(0, 5).map((product) => (
                   <div
                     key={product.id}

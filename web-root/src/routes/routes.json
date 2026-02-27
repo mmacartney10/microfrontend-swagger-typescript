@@ -1,0 +1,19 @@
+{
+  "routes": [
+    {
+      "url": "http://localhost:3001/remoteEntry.js",
+      "name": "microfrontend",
+      "module": "./App"
+    },
+    {
+      "url": "http://localhost:3002/remoteEntry.js",
+      "name": "microfrontend2",
+      "module": "./App"
+    },
+    {
+      "url": "http://localhost:3003/remoteEntry.js",
+      "name": "microfrontend3",
+      "module": "./App"
+    }
+  ]
+}

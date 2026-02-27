@@ -45,7 +45,7 @@ const ProductList: React.FC = () => {
       <div style={{ display: "flex", gap: "20px" }}>
         <div style={{ flex: 1 }}>
           <h4>Product List</h4>
-          <div style={{ maxHeight: "150px", overflowY: "auto" }}>
+          <div style={{ overflowY: "auto" }}>
             {products?.data?.map((product) => (
               <div
                 key={product.id}

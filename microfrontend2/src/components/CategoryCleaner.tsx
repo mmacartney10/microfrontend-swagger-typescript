@@ -31,7 +31,6 @@ const CategoryCleaner: React.FC = () => {
           display: "flex",
           flexWrap: "wrap",
           gap: "10px",
-          maxHeight: "150px",
           overflowY: "auto",
         }}
       >

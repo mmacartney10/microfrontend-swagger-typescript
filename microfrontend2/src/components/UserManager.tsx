@@ -60,7 +60,7 @@ const UserManager: React.FC = () => {
         {createUser.isPending ? "Creating..." : "Add New User"}
       </button>
 
-      <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+      <div style={{ overflowY: "auto" }}>
         {users?.data?.map((user) => (
           <div
             key={user.id}

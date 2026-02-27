@@ -106,7 +106,7 @@ const OrderUserManager: React.FC = () => {
           {ordersLoading ? (
             <div>Loading orders...</div>
           ) : (
-            <div style={{ maxHeight: "120px", overflowY: "auto" }}>
+            <div style={{ overflowY: "auto" }}>
               {orders?.data?.slice(0, 4).map((order) => (
                 <div
                   key={order.id}
@@ -170,7 +170,7 @@ const OrderUserManager: React.FC = () => {
           {usersLoading ? (
             <div>Loading users...</div>
           ) : (
-            <div style={{ maxHeight: "120px", overflowY: "auto" }}>
+            <div style={{ overflowY: "auto" }}>
               {users?.data?.slice(0, 4).map((user) => (
                 <div
                   key={user.id}

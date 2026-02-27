@@ -57,7 +57,7 @@ const OrderManager: React.FC = () => {
       <div style={{ display: "flex", gap: "20px" }}>
         <div style={{ flex: 1 }}>
           <h4>Orders List ({orders?.data?.length || 0})</h4>
-          <div style={{ maxHeight: "150px", overflowY: "auto" }}>
+          <div style={{ overflowY: "auto" }}>
             {orders?.data?.map((order) => (
               <div
                 key={order.id}

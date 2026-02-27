@@ -5,10 +5,6 @@ import {
   useCreateCategories,
   useDeleteCategories,
   useSystemList,
-  // useCategories,
-  // useCreateCategory,
-  // useDeleteCategory,
-  // useSystemHealth,
 } from "@swagger-ts/api-client";
 import { categoriesService, system } from "../services/api";
 
@@ -57,7 +53,7 @@ const CategorySystemMonitor: React.FC = () => {
 
   const handleDeleteCategory = (id: string, name: string) => {
     if (window.confirm(`Delete category "${name}"?`)) {
-      deleteCategory.mutate(id);
+      deleteCategory.mutate({ id });
     }
   };
 
@@ -144,7 +140,6 @@ const CategorySystemMonitor: React.FC = () => {
               display: "grid",
               gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
               gap: "8px",
-              maxHeight: "150px",
               overflowY: "auto",
             }}
           >
