@@ -1,23 +1,27 @@
 import React from "react";
 import {
   CategoryInput,
-  useCategories,
-  useCreateCategory,
-  useDeleteCategory,
-  useSystemHealth,
+  useCategoriesList,
+  useCreateCategories,
+  useDeleteCategories,
+  useSystemList,
+  // useCategories,
+  // useCreateCategory,
+  // useDeleteCategory,
+  // useSystemHealth,
 } from "@swagger-ts/api-client";
 import { categoriesService, system } from "../services/api";
 
 const CategorySystemMonitor: React.FC = () => {
   const { data: categories, isLoading: categoriesLoading } =
-    useCategories(categoriesService);
+    useCategoriesList(categoriesService);
   const {
     data: health,
     isLoading: healthLoading,
     error: healthError,
-  } = useSystemHealth(system);
-  const createCategory = useCreateCategory(categoriesService);
-  const deleteCategory = useDeleteCategory(categoriesService);
+  } = useSystemList(system);
+  const createCategory = useCreateCategories(categoriesService);
+  const deleteCategory = useDeleteCategories(categoriesService);
 
   const handleCreateCategory = () => {
     const colors = [

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {
-  useOrders,
-  useCreateOrder,
-  useOrder,
-  useUsers,
-  useCreateUser,
-  useUpdateUser,
+  useOrdersList,
+  useCreateOrders,
+  useOrdersDetail,
+  useUsersList,
+  useCreateUsers,
+  useUpdateUsers,
   User,
   OrderInput,
   UserInput,
@@ -13,17 +13,20 @@ import {
 import { ordersService, usersService } from "../services/api";
 
 const OrderUserManager: React.FC = () => {
-  const { data: orders, isLoading: ordersLoading } = useOrders(ordersService);
-  const { data: users, isLoading: usersLoading } = useUsers(usersService);
+  const { data: orders, isLoading: ordersLoading } =
+    useOrdersList(ordersService);
+  const { data: users, isLoading: usersLoading } = useUsersList(usersService);
   const [selectedOrderId, setSelectedOrderId] = useState<string>("");
-  const { data: selectedOrder } = useOrder(ordersService, selectedOrderId);
+  const { data: selectedOrder } = useOrdersDetail(
+    ordersService,
+    selectedOrderId,
+  );
 
-  const createOrder = useCreateOrder(ordersService);
-  const createUser = useCreateUser(usersService);
-  const updateUser = useUpdateUser(usersService);
+  const createOrder = useCreateOrders(ordersService);
+  const createUser = useCreateUsers(usersService);
+  const updateUser = useUpdateUsers(usersService);
 
   const handleCreateOrder = () => {
-    const statuses = ["pending", "processing", "shipped", "delivered"] as const;
     const newOrder: OrderInput = {
       customerId: `cust_${Date.now()}`,
       customerName: `Customer ${Math.floor(Math.random() * 1000)}`,

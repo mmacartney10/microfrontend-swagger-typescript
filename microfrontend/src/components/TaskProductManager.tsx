@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {
-  useTasks,
-  useCreateTask,
-  useUpdateTask,
-  useProducts,
-  useProduct,
-  useCreateProduct,
+  useTasksList,
+  useCreateTasks,
+  useUpdateTasks,
+  useProductsList,
+  useProductsDetail,
+  useCreateProducts,
   Task,
   TaskInput,
   ProductInput,
@@ -13,18 +13,18 @@ import {
 import { tasksService, productsService } from "../services/api";
 
 const TaskProductManager: React.FC = () => {
-  const { data: tasks, isLoading: tasksLoading } = useTasks(tasksService);
+  const { data: tasks, isLoading: tasksLoading } = useTasksList(tasksService);
   const { data: products, isLoading: productsLoading } =
-    useProducts(productsService);
+    useProductsList(productsService);
   const [selectedProductId, setSelectedProductId] = useState<string>("");
-  const { data: selectedProduct } = useProduct(
+  const { data: selectedProduct } = useProductsDetail(
     productsService,
     selectedProductId,
   );
 
-  const createTask = useCreateTask(tasksService);
-  const updateTask = useUpdateTask(tasksService);
-  const createProduct = useCreateProduct(productsService);
+  const createTask = useCreateTasks(tasksService);
+  const updateTask = useUpdateTasks(tasksService);
+  const createProduct = useCreateProducts(productsService);
 
   const handleCreateTask = () => {
     const priorities: ("low" | "medium" | "high")[] = ["low", "medium", "high"];
@@ -40,8 +40,8 @@ const TaskProductManager: React.FC = () => {
   const handleToggleTask = (task: Task) => {
     if (task.id && task.title) {
       updateTask.mutate({
-        id: task.id,
-        task: {
+        params: { id: task.id },
+        data: {
           title: task.title,
           description: task.description || "",
           priority: task.priority || "medium",

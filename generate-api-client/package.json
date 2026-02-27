@@ -7,11 +7,7 @@
   "scripts": {
     "generate": "ts-node --compiler-options '{\"module\":\"commonjs\"}' src/index.ts",
     "build": "npm run generate && tsc",
-    "dev": "npm run generate && tsc --watch",
-    "publish:local": "npm run build && yalc publish",
-    "foo": "ts-node --compiler-options '{\"module\":\"commonjs\"}' src/generate-hooks.ts",
-    "bar": "ts-node --compiler-options '{\"module\":\"commonjs\"}' src/generate-api.ts",
-    "foobar": "ts-node --compiler-options '{\"module\":\"commonjs\"}' src/index.ts"
+    "publish:local": "npm run build && yalc publish"
   },
   "files": [
     "dist/**/*"

@@ -5,24 +5,21 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "generate": "ts-node --compiler-options '{\"module\":\"commonjs\"}' src/generate.ts",
+    "generate": "ts-node --compiler-options '{\"module\":\"commonjs\"}' src/index.ts",
     "build": "npm run generate && tsc",
-    "dev": "npm run generate && tsc --watch",
-    "publish:local": "npm run build && yalc publish",
-    "foo": "ts-node --compiler-options '{\"module\":\"commonjs\"}' src/generate-hooks.ts",
-    "bar": "ts-node --compiler-options '{\"module\":\"commonjs\"}' src/generate-api.ts",
-    "foobar": "ts-node --compiler-options '{\"module\":\"commonjs\"}' src/index.ts"
+    "publish:local": "npm run build && yalc publish"
   },
   "files": [
     "dist/**/*"
   ],
   "dependencies": {
-    "@tanstack/react-query": "^5.90.21"
+    "@tanstack/react-query": "^5.90.21",
+    "eta": "^4.5.1"
   },
   "peerDependencies": {
     "react": "^18.3.1",
     "typescript": "^4.9.0 || ^5.0.0"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
-  "yalcSig": "b63d256c90133fa9674bac25238577f6"
+  "yalcSig": "5da1aa8868cd6ad0524abc520113b6a0"
 }
