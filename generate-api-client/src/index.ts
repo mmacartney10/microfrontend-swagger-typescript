@@ -120,7 +120,6 @@ async function generateAll() {
   }
 }
 
-// Handle graceful shutdown
 process.on("SIGINT", () => {
   console.log("\n⏹️  Generation interrupted");
   process.exit(0);

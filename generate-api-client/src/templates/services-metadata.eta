@@ -11,24 +11,19 @@ it.routes.combined.forEach(service => {
       routes: []
     };
   }
-  
-  // Now iterate through routes within this service
+
   service.routes.forEach(route => {
     const namespace = route.namespace;
     const methodName = route.routeName.usage;
     const httpMethod = route.request.method.toLowerCase();
 
-    // Extract path parameters
     const pathParams = (route.request.parameters || []).map(param => ({
       name: param.name,
       type: param.type || 'string',
       optional: param.optional || false
     }));
 
-    // Extract request body type (for POST/PUT)
     const requestBodyType = route.request.payload ? route.request.payload.type : null;
-
-    // Extract request params type (for path/query params interface)
     const requestParamsType = route.request.requestParams ? route.request.requestParams.typeName : null;
 
     services[serviceName].routes.push({

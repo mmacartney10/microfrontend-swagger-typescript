@@ -7,12 +7,10 @@ import { generateApi } from "swagger-typescript-api";
 async function generateTypeScript() {
   const outputDir = path.resolve(process.cwd(), "./output");
 
-  // Create output directories
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  // Generate API first
   await generateApi({
     addReadonly: false,
     extractEnums: false,
