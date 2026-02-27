@@ -1,0 +1,73 @@
+<%const serviceType = it.serviceName.split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' ');%>
+<%~ include('imports', { serviceType: serviceType, serviceName: it.serviceName, importTypes: it.importTypes }) %>
+<%~ include('queryKeys', { entityName: it.name, routes: it.routes }) %>
+
+<%
+for (let route of it.routes) {
+  const name = it.name;
+  const method = route.method;
+  const httpMethod = route.httpMethod;
+  const pathParams = route.pathParams || [];
+  const requestBodyType = route.requestBodyType;
+  const requestParamsType = route.requestParamsType;
+%>
+<% if (httpMethod === "get" && pathParams.length === 0) { %>
+export const use<%= name %>List = (service: <%= serviceType %>) => {
+  return useQuery({
+    <% /* queryKey: ["<%= name.toLowerCase() %>List"], */ %>
+    queryKey: QUERY_KEYS.list,
+    queryFn: () => service.<%= method %>(),
+  });
+};
+<% } %>
+
+<% if (httpMethod === "get" && pathParams.length > 0) { %>
+export const use<%= name %>Detail = (service: <%= serviceType %>, <%= pathParams.map(p => `${p.name}: ${p.type}`).join(", ") %>) => {
+  return useQuery({
+    <% /* queryKey: ["<%= name.toLowerCase() %>Detail", <%= pathParams.map(p => p.name).join(", ") %>], */ %>
+    queryKey: QUERY_KEYS.detail(<%= pathParams.map(p => p.name).join(", ") %>),
+    queryFn: () => service.<%= method %>({ <%= pathParams.map(p => p.name).join(", ") %> }),
+    enabled: <%= pathParams.map(p => `!!${p.name}`).join(" && ") %>,
+  });
+};
+<% } %>
+
+<% if (httpMethod === "post") { %>
+export const useCreate<%= name %> = (service: <%= serviceType %>) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: <%= requestBodyType %>) => service.<%= method %>(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["<%= name.toLowerCase() %>List"] });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.list });
+    },
+  });
+};
+<% } %>
+
+<% if (httpMethod === "put") { %>
+export const useUpdate<%= name %> = (service: <%= serviceType %>) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ params, data }: { params: <%= route.requestParamsType %>, data: <%= route.requestBodyType %> }) => service.<%= method %>(params, data),
+    onSuccess: () => {
+      <% /* queryClient.invalidateQueries({ queryKey: ["<%= name.toLowerCase() %>List"] }); */ %>
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.list });
+    },
+  });
+};
+<% } %>
+
+<% if (httpMethod === "delete") { %>
+export const useDelete<%= name %> = (service: <%= serviceType %>) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (params: <%= requestParamsType %>) => service.<%= method %>(params),
+    onSuccess: () => {
+      <% /* queryClient.invalidateQueries({ queryKey: ["<%= name.toLowerCase() %>List"] }); */ %>
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.list });
+    },
+  });
+};
+<% } %>
+<% } %>

@@ -1,0 +1,4 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Api<% if (it.importTypes && it.importTypes.length) { %>, <%= it.importTypes.join(", ") %><% } %> } from "../Api";
+
+type <%= it.serviceType %> = Api<any>["<%= it.serviceName %>"];

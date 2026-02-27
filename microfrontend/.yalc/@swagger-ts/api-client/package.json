@@ -8,7 +8,10 @@
     "generate": "ts-node --compiler-options '{\"module\":\"commonjs\"}' src/generate.ts",
     "build": "npm run generate && tsc",
     "dev": "npm run generate && tsc --watch",
-    "publish:local": "npm run build && yalc publish"
+    "publish:local": "npm run build && yalc publish",
+    "foo": "ts-node --compiler-options '{\"module\":\"commonjs\"}' src/generate-hooks.ts",
+    "bar": "ts-node --compiler-options '{\"module\":\"commonjs\"}' src/generate-api.ts",
+    "foobar": "ts-node --compiler-options '{\"module\":\"commonjs\"}' src/index.ts"
   },
   "files": [
     "dist/**/*"
@@ -21,5 +24,5 @@
     "typescript": "^4.9.0 || ^5.0.0"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
-  "yalcSig": "565fa5ed98e0575ff51af906bf68dc27"
+  "yalcSig": "b63d256c90133fa9674bac25238577f6"
 }
