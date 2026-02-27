@@ -1,9 +1,0 @@
-{
-  "version": "v1",
-  "packages": {
-    "@swagger-ts/api-client": {
-      "signature": "565fa5ed98e0575ff51af906bf68dc27",
-      "file": true
-    }
-  }
-}

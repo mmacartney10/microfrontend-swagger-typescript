@@ -1,17 +1,17 @@
 import React from "react";
 import {
-  useCategories,
-  useCreateCategory,
-  useUsers,
+  useCategoriesList,
+  useCreateCategories,
+  useUsersList,
   CategoryInput,
 } from "@swagger-ts/api-client";
 import { categoriesService, usersService } from "../services/api";
 
 const CategoryUserList: React.FC = () => {
   const { data: categories, isLoading: categoriesLoading } =
-    useCategories(categoriesService);
-  const { data: users, isLoading: usersLoading } = useUsers(usersService);
-  const createCategory = useCreateCategory(categoriesService);
+    useCategoriesList(categoriesService);
+  const { data: users, isLoading: usersLoading } = useUsersList(usersService);
+  const createCategory = useCreateCategories(categoriesService);
 
   const handleCreateCategory = () => {
     const colors = ["#FF6B6B", "#cd4ea7ff", "#45B7D1", "#96CEB4", "#FFEAA7"];

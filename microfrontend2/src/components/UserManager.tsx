@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import {
   User,
   UserInput,
-  useUsers,
-  useCreateUser,
-  useUpdateUser,
+  useUsersList,
+  useCreateUsers,
+  useUpdateUsers,
 } from "@swagger-ts/api-client";
 import { usersService } from "../services/api";
 
 const UserManager: React.FC = () => {
-  const { data: users, isLoading, error } = useUsers(usersService);
-  const createUser = useCreateUser(usersService);
-  const updateUser = useUpdateUser(usersService);
+  const { data: users, isLoading, error } = useUsersList(usersService);
+  const createUser = useCreateUsers(usersService);
+  const updateUser = useUpdateUsers(usersService);
   const [editingUser, setEditingUser] = useState<User | null>(null);
 
   const handleCreateUser = () => {

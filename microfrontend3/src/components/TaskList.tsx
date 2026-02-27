@@ -1,17 +1,17 @@
 import React from "react";
 import {
-  useTasks,
-  useCreateTask,
-  useUpdateTask,
+  useTasksList,
+  useCreateTasks,
+  useUpdateTasks,
   Task,
   TaskInput,
 } from "@swagger-ts/api-client";
 import { tasksService } from "../services/api";
 
 const TaskList: React.FC = () => {
-  const { data: tasks, isLoading, error } = useTasks(tasksService);
-  const createTask = useCreateTask(tasksService);
-  const updateTask = useUpdateTask(tasksService);
+  const { data: tasks, isLoading, error } = useTasksList(tasksService);
+  const createTask = useCreateTasks(tasksService);
+  const updateTask = useUpdateTasks(tasksService);
 
   const handleCreateTask = () => {
     const newTask: TaskInput = {
@@ -26,8 +26,8 @@ const TaskList: React.FC = () => {
   const handleToggleComplete = (task: Task) => {
     if (task.id && task.title) {
       updateTask.mutate({
-        id: task.id,
-        task: {
+        params: { id: task.id },
+        data: {
           title: task.title,
           description: task.description || "",
           priority: task.priority || "medium",
