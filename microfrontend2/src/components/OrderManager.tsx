@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   OrderInput,
   useOrdersList,
-  useCreateOrders,
+  useOrdersCreate,
   useOrdersDetail,
 } from "@swagger-ts/api-client";
 import { ordersService } from "../services/api";
@@ -10,11 +10,10 @@ import { ordersService } from "../services/api";
 const OrderManager: React.FC = () => {
   const { data: orders, isLoading, error } = useOrdersList(ordersService);
   const [selectedOrderId, setSelectedOrderId] = useState<string>("");
-  const { data: selectedOrder } = useOrdersDetail(
-    ordersService,
-    selectedOrderId,
-  );
-  const createOrder = useCreateOrders(ordersService);
+  const { data: selectedOrder } = useOrdersDetail(ordersService, {
+    id: selectedOrderId,
+  });
+  const createOrder = useOrdersCreate(ordersService);
 
   const handleCreateOrder = () => {
     const newOrder: OrderInput = {

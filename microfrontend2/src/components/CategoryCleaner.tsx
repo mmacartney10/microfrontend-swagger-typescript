@@ -1,5 +1,5 @@
 import React from "react";
-import { useCategoriesList, useDeleteCategories } from "@swagger-ts/api-client";
+import { useCategoriesList, useCategoriesDelete } from "@swagger-ts/api-client";
 import { categoriesService } from "../services/api";
 
 const CategoryCleaner: React.FC = () => {
@@ -8,7 +8,7 @@ const CategoryCleaner: React.FC = () => {
     isLoading,
     error,
   } = useCategoriesList(categoriesService);
-  const deleteCategory = useDeleteCategories(categoriesService);
+  const deleteCategory = useCategoriesDelete(categoriesService);
 
   const handleDeleteCategory = (id: string, name: string) => {
     if (window.confirm(`Are you sure you want to delete category "${name}"?`)) {

@@ -3,15 +3,15 @@ import {
   User,
   UserInput,
   useUsersList,
-  useCreateUsers,
-  useUpdateUsers,
+  useUsersCreate,
+  useUsersUpdate,
 } from "@swagger-ts/api-client";
 import { usersService } from "../services/api";
 
 const UserManager: React.FC = () => {
   const { data: users, isLoading, error } = useUsersList(usersService);
-  const createUser = useCreateUsers(usersService);
-  const updateUser = useUpdateUsers(usersService);
+  const createUser = useUsersCreate(usersService);
+  const updateUser = useUsersUpdate(usersService);
   const [editingUser, setEditingUser] = useState<User | null>(null);
 
   const handleCreateUser = () => {
@@ -35,7 +35,7 @@ const UserManager: React.FC = () => {
         role: user.role || "user",
         active: !user.active,
       };
-      updateUser.mutate({ id: user.id, user: updatedUser });
+      updateUser.mutate({ params: { id: user.id || "" }, data: updatedUser });
     }
   };
 

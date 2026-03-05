@@ -2,9 +2,9 @@ import React from "react";
 import {
   CategoryInput,
   useCategoriesList,
-  useCreateCategories,
-  useDeleteCategories,
-  useSystemList,
+  useCategoriesCreate,
+  useCategoriesDelete,
+  useHealthList,
 } from "@swagger-ts/api-client";
 import { categoriesService, system } from "../services/api";
 
@@ -15,9 +15,9 @@ const CategorySystemMonitor: React.FC = () => {
     data: health,
     isLoading: healthLoading,
     error: healthError,
-  } = useSystemList(system);
-  const createCategory = useCreateCategories(categoriesService);
-  const deleteCategory = useDeleteCategories(categoriesService);
+  } = useHealthList(system);
+  const createCategory = useCategoriesCreate(categoriesService);
+  const deleteCategory = useCategoriesDelete(categoriesService);
 
   const handleCreateCategory = () => {
     const colors = [

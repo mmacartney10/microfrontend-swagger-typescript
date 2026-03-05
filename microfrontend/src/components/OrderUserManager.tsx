@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {
   useOrdersList,
-  useCreateOrders,
+  useOrdersCreate,
   useOrdersDetail,
   useUsersList,
-  useCreateUsers,
-  useUpdateUsers,
+  useUsersCreate,
+  useUsersUpdate,
   User,
   OrderInput,
   UserInput,
@@ -17,14 +17,13 @@ const OrderUserManager: React.FC = () => {
     useOrdersList(ordersService);
   const { data: users, isLoading: usersLoading } = useUsersList(usersService);
   const [selectedOrderId, setSelectedOrderId] = useState<string>("");
-  const { data: selectedOrder } = useOrdersDetail(
-    ordersService,
-    selectedOrderId,
-  );
+  const { data: selectedOrder } = useOrdersDetail(ordersService, {
+    id: selectedOrderId,
+  });
 
-  const createOrder = useCreateOrders(ordersService);
-  const createUser = useCreateUsers(usersService);
-  const updateUser = useUpdateUsers(usersService);
+  const createOrder = useOrdersCreate(ordersService);
+  const createUser = useUsersCreate(usersService);
+  const updateUser = useUsersUpdate(usersService);
 
   const handleCreateOrder = () => {
     const newOrder: OrderInput = {

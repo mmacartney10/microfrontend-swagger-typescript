@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {
   useTasksList,
-  useCreateTasks,
-  useUpdateTasks,
+  useTasksCreate,
+  useTasksUpdate,
   useProductsList,
   useProductsDetail,
-  useCreateProducts,
+  useProductsCreate,
   Task,
   TaskInput,
   ProductInput,
@@ -17,14 +17,13 @@ const TaskProductManager: React.FC = () => {
   const { data: products, isLoading: productsLoading } =
     useProductsList(productsService);
   const [selectedProductId, setSelectedProductId] = useState<string>("");
-  const { data: selectedProduct } = useProductsDetail(
-    productsService,
-    selectedProductId,
-  );
+  const { data: selectedProduct } = useProductsDetail(productsService, {
+    id: selectedProductId,
+  });
 
-  const createTask = useCreateTasks(tasksService);
-  const updateTask = useUpdateTasks(tasksService);
-  const createProduct = useCreateProducts(productsService);
+  const createTask = useTasksCreate(tasksService);
+  const updateTask = useTasksUpdate(tasksService);
+  const createProduct = useProductsCreate(productsService);
 
   const handleCreateTask = () => {
     const priorities: ("low" | "medium" | "high")[] = ["low", "medium", "high"];

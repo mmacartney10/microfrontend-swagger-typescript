@@ -1,8 +1,8 @@
 import React from "react";
 import {
   useTasksList,
-  useCreateTasks,
-  useUpdateTasks,
+  useTasksCreate,
+  useTasksUpdate,
   Task,
   TaskInput,
 } from "@swagger-ts/api-client";
@@ -10,8 +10,8 @@ import { tasksService } from "../services/api";
 
 const TaskList: React.FC = () => {
   const { data: tasks, isLoading, error } = useTasksList(tasksService);
-  const createTask = useCreateTasks(tasksService);
-  const updateTask = useUpdateTasks(tasksService);
+  const createTask = useTasksCreate(tasksService);
+  const updateTask = useTasksUpdate(tasksService);
 
   const handleCreateTask = () => {
     const newTask: TaskInput = {
