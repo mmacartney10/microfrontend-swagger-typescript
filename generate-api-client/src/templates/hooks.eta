@@ -14,7 +14,6 @@ for (let route of it.routes) {
 <% if (httpMethod === "get" && pathParams.length === 0) { %>
 export const use<%= name %>List = (service: <%= serviceType %>) => {
   return useQuery({
-    <% /* queryKey: ["<%= name.toLowerCase() %>List"], */ %>
     queryKey: QUERY_KEYS.list,
     queryFn: () => service.<%= method %>(),
   });
@@ -24,7 +23,6 @@ export const use<%= name %>List = (service: <%= serviceType %>) => {
 <% if (httpMethod === "get" && pathParams.length > 0) { %>
 export const use<%= name %>Detail = (service: <%= serviceType %>, <%= pathParams.map(p => `${p.name}: ${p.type}`).join(", ") %>) => {
   return useQuery({
-    <% /* queryKey: ["<%= name.toLowerCase() %>Detail", <%= pathParams.map(p => p.name).join(", ") %>], */ %>
     queryKey: QUERY_KEYS.detail(<%= pathParams.map(p => p.name).join(", ") %>),
     queryFn: () => service.<%= method %>({ <%= pathParams.map(p => p.name).join(", ") %> }),
     enabled: <%= pathParams.map(p => `!!${p.name}`).join(" && ") %>,

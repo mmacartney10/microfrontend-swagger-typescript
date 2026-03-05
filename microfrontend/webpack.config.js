@@ -35,6 +35,7 @@ const config = {
               'react-dom': { singleton: true },
               'react-router-dom': { singleton: true },
               '@tanstack/react-query': { singleton: true },
+              '@swagger-ts/api-client': { singleton: true },
           },
       }),
       new HtmlWebpackPlugin({
