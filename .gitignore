@@ -105,3 +105,4 @@ remoteEntry.js
 # yalc package manager
 .yalc/
 yalc.lock
+swagger.json

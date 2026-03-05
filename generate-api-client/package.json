@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "generate": "ts-node --compiler-options '{\"module\":\"commonjs\"}' src/index.ts",
-    "build": "npm run generate && tsc",
+    "build": "npm run generate && tsc && npm run minify",
+    "minify": "terser dist/Api.js -o dist/Api.js --compress --mangle && terser dist/index.js -o dist/index.js --compress --mangle",
     "publish:local": "npm run build && yalc publish"
   },
   "files": [
@@ -16,6 +17,7 @@
     "@types/node": "^20.0.0",
     "dotenv": "^16.0.3",
     "swagger-typescript-api": "^13.2.18",
+    "terser": "^5.36.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.7.2"
   },

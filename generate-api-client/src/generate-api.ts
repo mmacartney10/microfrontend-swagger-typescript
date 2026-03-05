@@ -31,7 +31,8 @@ async function generateTypeScript() {
         path: "./src/templates/services-metadata.eta",
       },
     ],
-    url: process.env.SWAGGER_DOCS_URL as string,
+    // url: process.env.SWAGGER_DOCS_URL as string,
+    input: path.resolve(process.cwd(), "./swagger.json"),
   });
 }
 

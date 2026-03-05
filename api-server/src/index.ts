@@ -3,7 +3,12 @@ import cors from "cors";
 import { setupSwagger } from "./swagger";
 import { getTasks, postTask, putTask } from "./api/tasks";
 import { getProducts, getProduct, postProduct } from "./api/products";
-import { getOrders, postOrder, getOrder } from "./api/orders";
+import {
+  getOrders,
+  postOrder,
+  getOrder,
+  updateOrderStatus,
+} from "./api/orders";
 import { getUsers, postUser, putUser } from "./api/users";
 import { getCategories, postCategory, deleteCategory } from "./api/categories";
 
@@ -44,6 +49,7 @@ app.post("/api/products", postProduct);
 app.get("/api/orders", getOrders);
 app.post("/api/orders", postOrder);
 app.get("/api/orders/:id", getOrder);
+app.patch("/api/orders/:id", updateOrderStatus);
 
 // Users API routes
 app.get("/api/users", getUsers);

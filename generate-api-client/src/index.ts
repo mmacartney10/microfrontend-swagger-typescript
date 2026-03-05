@@ -66,6 +66,11 @@ async function generateAll() {
   try {
     console.log("🚀 Starting API and hooks generation...");
 
+    // Step 0: Validate Swagger changes
+    console.log("🔍 Validating Swagger changes...");
+    await runScript("./src/validate-swagger.ts");
+    console.log("✅ Swagger validation completed");
+
     // Step 1: Run generate-api.ts
     console.log("📡 Generating API from Swagger...");
     await runScript("./src/generate-api.ts");

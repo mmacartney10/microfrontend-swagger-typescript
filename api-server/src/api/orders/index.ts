@@ -37,4 +37,35 @@ const getOrder = (request: Request, response: Response): void => {
   response.status(200).json(order);
 };
 
-export { getOrders, postOrder, getOrder };
+const updateOrderStatus = (request: Request, response: Response): void => {
+  const { id } = request.params;
+  const { status } = request.body;
+  console.log("updateOrderStatus", id, status);
+
+  const orderIndex = ordersData.findIndex((o) => o.id === id);
+  if (orderIndex === -1) {
+    response.status(404).json({ error: "Order not found" });
+    return;
+  }
+
+  const validStatuses = [
+    "pending",
+    "processing",
+    "shipped",
+    "delivered",
+    "cancelled",
+  ];
+  if (!validStatuses.includes(status)) {
+    response.status(400).json({ error: "Invalid status value" });
+    return;
+  }
+
+  ordersData[orderIndex] = {
+    ...ordersData[orderIndex],
+    status,
+  };
+
+  response.status(200).json(ordersData[orderIndex]);
+};
+
+export { getOrders, postOrder, getOrder, updateOrderStatus };
