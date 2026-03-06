@@ -6,17 +6,13 @@ const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
-
-
 const stylesHandler = 'style-loader';
-
-
 
 const config = {
   entry: './src/index.tsx',
   output: {
-      path: path.resolve(__dirname, 'dist'),
-      publicPath: 'http://localhost:3001/',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: 'http://localhost:3001/',
   },
   devServer: {
       open: true,
@@ -24,26 +20,23 @@ const config = {
       host: 'localhost',
   },
   plugins: [
-      new ModuleFederationPlugin({
-          name: 'microfrontend',
-          filename: 'remoteEntry.js',
-          exposes: {
-              './App': './src/App.tsx',
-          },
-          shared: {
-              react: { singleton: true },
-              'react-dom': { singleton: true },
-              'react-router-dom': { singleton: true },
-              '@tanstack/react-query': { singleton: true },
-              '@swagger-ts/api-client': { singleton: true },
-          },
-      }),
-      new HtmlWebpackPlugin({
-          template: 'index.html',
-      }),
-
-      // Add your plugins here
-      // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+    new ModuleFederationPlugin({
+        name: 'microfrontend',
+        filename: 'remoteEntry.js',
+        exposes: {
+            './App': './src/App.tsx',
+        },
+        shared: {
+            react: { singleton: true },
+            'react-dom': { singleton: true },
+            'react-router-dom': { singleton: true },
+            '@tanstack/react-query': { singleton: true },
+            '@swagger-ts/api-client': { singleton: true },
+        },
+    }),
+    new HtmlWebpackPlugin({
+        template: 'index.html',
+    }),
   ],
   module: {
     rules: [
