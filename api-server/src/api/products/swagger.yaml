@@ -60,6 +60,33 @@ paths:
                 $ref: "#/components/schemas/Product"
         "404":
           description: Product not found
+    put:
+      tags:
+        - ProductsService
+      summary: Update an existing product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductInput"
+      responses:
+        "200":
+          description: Product updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          description: Invalid product data
+        "404":
+          description: Product not found
 components:
   schemas:
     Product:

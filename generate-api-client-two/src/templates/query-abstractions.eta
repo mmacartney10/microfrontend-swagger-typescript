@@ -1,0 +1,78 @@
+<%const serviceType = it.serviceName.split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' ');%>
+
+import { queryOptions, mutationOptions } from "@tanstack/react-query";
+import { Api<% if (it.importTypes && it.importTypes.length) { %>, <%= it.importTypes.join(", ") %><% } %> } from "../Api";
+
+type <%= serviceType %> = Api<any>["<%= it.serviceName %>"];
+
+const QUERY_KEYS = {
+<% for (let route of it.routes) { %>
+  <% if (route.httpMethod === "get") { %>
+  <% const keyName = route.method; %>
+  <%= keyName %>: <% if (route.pathParams.length > 0) { %>(<%= route.pathParams.map(p => `${p.name}: string`).join(", ") %>) => <% } %>["<%= route.method %>", <%= route.pathParams.map(p => p.name).join(", ") %>] as const,
+  <% } %>
+<% } %>
+};
+
+<%
+for (let route of it.routes) {
+  const name = it.name;
+  const method = route.method;
+  const httpMethod = route.httpMethod;
+  const pathParams = route.pathParams || [];
+  const requestBodyType = route.requestBodyType;
+  const requestParamsType = route.requestParamsType;
+  const optionName = method.charAt(0).toLowerCase() + method.slice(1) + 'Options';
+%>
+<% if (httpMethod === "get" && pathParams.length === 0) { %>
+<% if (requestParamsType) { %>
+export const <%= optionName %> = (service: <%= serviceType %>, params: <%= requestParamsType %>) =>
+  queryOptions({
+    queryKey: QUERY_KEYS.<%= method %>,
+    queryFn: () => service.<%= method %>(params),
+  });
+<% } else { %>
+export const <%= optionName %> = (service: <%= serviceType %>) =>
+  queryOptions({
+    queryKey: QUERY_KEYS.<%= method %>,
+    queryFn: () => service.<%= method %>(),
+  });
+<% } %>
+<% } %>
+
+<% if (httpMethod === "get" && pathParams.length > 0) { %>
+export const <%= optionName %> = (service: <%= serviceType %>, params: <%= requestParamsType %>) =>
+  queryOptions({
+    queryKey: QUERY_KEYS.<%= method %>(<%= pathParams.map(p => `params.${p.name}`).join(", ") %>),
+    queryFn: () => service.<%= method %>(params),
+  });
+<% } %>
+
+<% if (httpMethod === "post") { %>
+<% if (pathParams.length > 0) { %>
+export const <%= optionName %> = (service: <%= serviceType %>) =>
+  mutationOptions({
+    mutationFn: ({ params, data }: { params: <%= requestParamsType %>, data: <%= requestBodyType %> }) => service.<%= method %>(params, data),
+  });
+<% } else { %>
+export const <%= optionName %> = (service: <%= serviceType %>) =>
+  mutationOptions({
+    mutationFn: (data: <%= requestBodyType %>) => service.<%= method %>(data),
+  });
+<% } %>
+<% } %>
+
+<% if (httpMethod === "put") { %>
+export const <%= optionName %> = (service: <%= serviceType %>) =>
+  mutationOptions({
+    mutationFn: ({ params, data }: { params: <%= route.requestParamsType %>, data: <%= route.requestBodyType %> }) => service.<%= method %>(params, data),
+  });
+<% } %>
+
+<% if (httpMethod === "delete") { %>
+export const <%= optionName %> = (service: <%= serviceType %>) =>
+  mutationOptions({
+    mutationFn: (params: <%= requestParamsType %>) => service.<%= method %>(params),
+  });
+<% } %>
+<% } %>

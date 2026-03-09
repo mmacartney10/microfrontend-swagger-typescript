@@ -1,4 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+import { queryOptions, mutationOptions } from "@tanstack/react-query";
 import { Api, ProductInput, ProductsDetailParams, ProductsUpdateParams } from "../Api";
 
 type ProductsService = Api<any>["productsService"];
@@ -8,50 +9,37 @@ const QUERY_KEYS = {
           productsDetail: (id: string) => ["productsDetail", id] as const,
     };
 
-export const useProductsList = (service: ProductsService) => {
-  return useQuery({
+export const productsListOptions = (service: ProductsService) =>
+  queryOptions({
     queryKey: QUERY_KEYS.productsList,
     queryFn: () => service.productsList(),
   });
-};
 
 
 
 
 
 
-export const useProductsCreate = (service: ProductsService) => {
-  const queryClient = useQueryClient();
-  return useMutation({
+export const productsCreateOptions = (service: ProductsService) =>
+  mutationOptions({
     mutationFn: (data: ProductInput) => service.productsCreate(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries();
-    },
   });
-};
 
 
 
-export const useProductsDetail = (service: ProductsService, params: ProductsDetailParams) => {
-  return useQuery({
+export const productsDetailOptions = (service: ProductsService, params: ProductsDetailParams) =>
+  queryOptions({
     queryKey: QUERY_KEYS.productsDetail(params.id),
     queryFn: () => service.productsDetail(params),
-    enabled: !!params.id,
   });
-};
 
 
 
 
 
 
-export const useProductsUpdate = (service: ProductsService) => {
-  const queryClient = useQueryClient();
-  return useMutation({
+export const productsUpdateOptions = (service: ProductsService) =>
+  mutationOptions({
     mutationFn: ({ params, data }: { params: ProductsUpdateParams, data: ProductInput }) => service.productsUpdate(params, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries();
-    },
   });
-};
 

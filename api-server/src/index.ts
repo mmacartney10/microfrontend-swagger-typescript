@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import { setupSwagger } from "./swagger";
 import { getTasks, postTask, putTask } from "./api/tasks";
-import { getProducts, getProduct, postProduct } from "./api/products";
+import { getProducts, getProduct, postProduct, updateProduct } from "./api/products";
 import {
   getOrders,
   postOrder,
@@ -44,6 +44,7 @@ app.put("/api/tasks/:id", putTask);
 app.get("/api/products", getProducts);
 app.get("/api/products/:id", getProduct);
 app.post("/api/products", postProduct);
+app.put("/api/products/:id", updateProduct);
 
 // Orders API routes
 app.get("/api/orders", getOrders);

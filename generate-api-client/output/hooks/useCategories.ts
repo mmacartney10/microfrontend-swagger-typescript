@@ -4,8 +4,8 @@ import { Api, CategoryInput, CategoriesDeleteParams } from "../Api";
 type CategoriesService = Api<any>["categoriesService"];
 
 const QUERY_KEYS = {
-  categoriesList: ["categoriesList"] as const,
-};
+      categoriesList: ["categoriesList", ] as const,
+      };
 
 export const useCategoriesList = (service: CategoriesService) => {
   return useQuery({
@@ -13,6 +13,11 @@ export const useCategoriesList = (service: CategoriesService) => {
     queryFn: () => service.categoriesList(),
   });
 };
+
+
+
+
+
 
 export const useCategoriesCreate = (service: CategoriesService) => {
   const queryClient = useQueryClient();
@@ -24,11 +29,15 @@ export const useCategoriesCreate = (service: CategoriesService) => {
   });
 };
 
+
+
+
+
+
 export const useCategoriesDelete = (service: CategoriesService) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (params: CategoriesDeleteParams) =>
-      service.categoriesDelete(params),
+    mutationFn: (params: CategoriesDeleteParams) => service.categoriesDelete(params),
     onSuccess: () => {
       queryClient.invalidateQueries();
     },

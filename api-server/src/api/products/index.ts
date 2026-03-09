@@ -36,4 +36,26 @@ const postProduct = (request: Request, response: Response): void => {
   }
 };
 
-export { getProducts, getProduct, postProduct };
+const updateProduct = (request: Request, response: Response): void => {
+  const { id } = request.params;
+  console.log("updateProduct", id, request.body);
+
+  try {
+    const productIndex = productsData.findIndex((p) => p.id === id);
+    if (productIndex === -1) {
+      response.status(404).json({ error: "Product not found" });
+      return;
+    }
+
+    productsData[productIndex] = {
+      ...productsData[productIndex],
+      ...request.body,
+    };
+
+    response.status(200).json(productsData[productIndex]);
+  } catch (error) {
+    response.status(400).json({ error: "Invalid product data" });
+  }
+};
+
+export { getProducts, getProduct, postProduct, updateProduct };

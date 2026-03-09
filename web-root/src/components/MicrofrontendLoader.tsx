@@ -17,6 +17,7 @@ export const loadRemoteEntry = (remoteUrl: string, scope: string) => {
     if ((window as any)[scope]) {
       return resolve(void 0);
     }
+
     const script = document.createElement("script");
     script.src = remoteUrl;
     script.type = "text/javascript";
@@ -53,24 +54,27 @@ const MicrofrontendLoader: React.FC<MicrofrontendLoaderProps> = ({ name }) => {
 
   useEffect(() => {
     let isMounted = true;
-    // const config = REMOTE_CONFIG[name];
     const config = routes.routes.find((route) => route.name === name);
+
     if (!config) {
       setComponent(() =>
         lazy(() => Promise.reject(new Error(`Unknown microfrontend: ${name}`))),
       );
       return;
     }
+
     loadRemoteEntry(config.url, config.name).then(() => {
       const Comp = lazy(loadComponent(config.name, config.module));
       if (isMounted) setComponent(() => Comp);
     });
+
     return () => {
       isMounted = false;
     };
   }, [name]);
 
   if (!Component) return <Loading />;
+
   return (
     <Suspense fallback={<Loading />}>
       <Component />
