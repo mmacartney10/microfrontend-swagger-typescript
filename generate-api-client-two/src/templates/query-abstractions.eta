@@ -5,7 +5,7 @@ import { Api<% if (it.importTypes && it.importTypes.length) { %>, <%= it.importT
 
 type <%= serviceType %> = Api<any>["<%= it.serviceName %>"];
 
-const QUERY_KEYS = {
+export const QUERY_KEYS_<%= it.name.toUpperCase() %> = {
 <% for (let route of it.routes) { %>
   <% if (route.httpMethod === "get") { %>
   <% const keyName = route.method; %>
@@ -23,18 +23,19 @@ for (let route of it.routes) {
   const requestBodyType = route.requestBodyType;
   const requestParamsType = route.requestParamsType;
   const optionName = method.charAt(0).toLowerCase() + method.slice(1) + 'Options';
+  const queryKeysName = `QUERY_KEYS_${it.name.toUpperCase()}`;
 %>
 <% if (httpMethod === "get" && pathParams.length === 0) { %>
 <% if (requestParamsType) { %>
 export const <%= optionName %> = (service: <%= serviceType %>, params: <%= requestParamsType %>) =>
   queryOptions({
-    queryKey: QUERY_KEYS.<%= method %>,
+    queryKey: <%= queryKeysName %>.<%= method %>,
     queryFn: () => service.<%= method %>(params),
   });
 <% } else { %>
 export const <%= optionName %> = (service: <%= serviceType %>) =>
   queryOptions({
-    queryKey: QUERY_KEYS.<%= method %>,
+    queryKey: <%= queryKeysName %>.<%= method %>,
     queryFn: () => service.<%= method %>(),
   });
 <% } %>
@@ -43,7 +44,7 @@ export const <%= optionName %> = (service: <%= serviceType %>) =>
 <% if (httpMethod === "get" && pathParams.length > 0) { %>
 export const <%= optionName %> = (service: <%= serviceType %>, params: <%= requestParamsType %>) =>
   queryOptions({
-    queryKey: QUERY_KEYS.<%= method %>(<%= pathParams.map(p => `params.${p.name}`).join(", ") %>),
+    queryKey: <%= queryKeysName %>.<%= method %>(<%= pathParams.map(p => `params.${p.name}`).join(", ") %>),
     queryFn: () => service.<%= method %>(params),
   });
 <% } %>
@@ -62,7 +63,7 @@ export const <%= optionName %> = (service: <%= serviceType %>) =>
 <% } %>
 <% } %>
 
-<% if (httpMethod === "put") { %>
+<% if (httpMethod === "put" || httpMethod === "patch") { %>
 export const <%= optionName %> = (service: <%= serviceType %>) =>
   mutationOptions({
     mutationFn: ({ params, data }: { params: <%= route.requestParamsType %>, data: <%= route.requestBodyType %> }) => service.<%= method %>(params, data),

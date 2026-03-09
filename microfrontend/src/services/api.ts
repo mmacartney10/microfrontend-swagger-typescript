@@ -1,4 +1,4 @@
-import { Api } from "@swagger-ts/api-client";
+import { Api } from "@swagger-ts/api-client-two";
 
 export const apiClient = new Api({
   baseUrl: "http://localhost:4000",

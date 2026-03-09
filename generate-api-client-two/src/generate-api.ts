@@ -32,7 +32,7 @@ async function generateTypeScript() {
       },
     ],
     // url: process.env.SWAGGER_DOCS_URL as string,
-    input: path.resolve(process.cwd(), "./swagger.json"),
+    input: path.resolve(process.cwd(), outputDir, "./swagger.json"),
   });
 }
 

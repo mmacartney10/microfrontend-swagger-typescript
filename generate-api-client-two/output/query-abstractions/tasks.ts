@@ -4,13 +4,13 @@ import { Api, TaskInput, TasksUpdateParams } from "../Api";
 
 type TasksService = Api<any>["tasksService"];
 
-const QUERY_KEYS = {
+export const QUERY_KEYS_TASKS = {
       tasksList: ["tasksList", ] as const,
       };
 
 export const tasksListOptions = (service: TasksService) =>
   queryOptions({
-    queryKey: QUERY_KEYS.tasksList,
+    queryKey: QUERY_KEYS_TASKS.tasksList,
     queryFn: () => service.tasksList(),
   });
 

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Task, TaskInput, ProductInput } from "@swagger-ts/api-client-two";
 import {
   useTasksList,
   useTasksCreate,
@@ -6,24 +7,19 @@ import {
   useProductsList,
   useProductsDetail,
   useProductsCreate,
-  Task,
-  TaskInput,
-  ProductInput,
-} from "@swagger-ts/api-client";
-import { tasksService, productsService } from "../services/api";
+} from "../hooks";
 
 const TaskProductManager: React.FC = () => {
-  const { data: tasks, isLoading: tasksLoading } = useTasksList(tasksService);
-  const { data: products, isLoading: productsLoading } =
-    useProductsList(productsService);
+  const { data: tasks, isLoading: tasksLoading } = useTasksList();
+  const { data: products, isLoading: productsLoading } = useProductsList();
   const [selectedProductId, setSelectedProductId] = useState<string>("");
-  const { data: selectedProduct } = useProductsDetail(productsService, {
+  const { data: selectedProduct } = useProductsDetail({
     id: selectedProductId,
   });
 
-  const createTask = useTasksCreate(tasksService);
-  const updateTask = useTasksUpdate(tasksService);
-  const createProduct = useProductsCreate(productsService);
+  const createTask = useTasksCreate();
+  const updateTask = useTasksUpdate();
+  const createProduct = useProductsCreate();
 
   const handleCreateTask = () => {
     const priorities: ("low" | "medium" | "high")[] = ["low", "medium", "high"];

@@ -4,8 +4,8 @@ import * as path from "node:path";
 import * as readline from "node:readline";
 
 const SWAGGER_URL = process.env.SWAGGER_DOCS_URL as string;
-const BASELINE_PATH = path.resolve(process.cwd(), "./swagger-baseline.json");
-const CURRENT_PATH = path.resolve(process.cwd(), "./swagger.json");
+const OUTPUT_DIR = path.resolve(process.cwd(), "./output");
+const SWAGGER_PATH = path.resolve(OUTPUT_DIR, "./swagger.json");
 
 interface DiffResult {
   added: string[];
@@ -77,27 +77,28 @@ function promptUser(question: string): Promise<string> {
 
 async function validateSwagger(): Promise<void> {
   try {
-    // Fetch current swagger
-    const currentSwagger = await fetchSwagger();
+    // Ensure output directory exists
+    if (!fs.existsSync(OUTPUT_DIR)) {
+      fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+    }
 
-    // Save current swagger
-    fs.writeFileSync(CURRENT_PATH, JSON.stringify(currentSwagger, null, 2));
-    console.log(`✅ Saved current Swagger to ${CURRENT_PATH}`);
+    // Fetch swagger from URL
+    const fetchedSwagger = await fetchSwagger();
 
-    // Check if baseline exists
-    if (!fs.existsSync(BASELINE_PATH)) {
-      console.log("\n⚠️  No baseline found. This is the first run.");
-      fs.writeFileSync(BASELINE_PATH, JSON.stringify(currentSwagger, null, 2));
-      console.log(`✅ Created baseline at ${BASELINE_PATH}`);
+    // Check if swagger.json exists
+    if (!fs.existsSync(SWAGGER_PATH)) {
+      console.log("\n⚠️  No swagger.json found. This is the first run.");
+      fs.writeFileSync(SWAGGER_PATH, JSON.stringify(fetchedSwagger, null, 2));
+      console.log(`✅ Created swagger.json at ${SWAGGER_PATH}`);
       console.log("\n✨ Proceeding with generation...\n");
       return;
     }
 
-    // Load baseline
-    const baselineSwagger = JSON.parse(fs.readFileSync(BASELINE_PATH, "utf-8"));
+    // Load existing swagger.json
+    const existingSwagger = JSON.parse(fs.readFileSync(SWAGGER_PATH, "utf-8"));
 
     // Compare
-    const diff = compareObjects(baselineSwagger, currentSwagger);
+    const diff = compareObjects(existingSwagger, fetchedSwagger);
 
     // Check if there are changes
     const hasChanges =
@@ -151,16 +152,15 @@ async function validateSwagger(): Promise<void> {
     );
 
     if (answer === "yes" || answer === "y") {
-      // Update baseline
-      fs.writeFileSync(BASELINE_PATH, JSON.stringify(currentSwagger, null, 2));
-      console.log("\n✅ Baseline updated.");
+      fs.writeFileSync(SWAGGER_PATH, JSON.stringify(fetchedSwagger, null, 2));
+      console.log("\n✅ swagger.json updated.");
       console.log("✨ Proceeding with generation...\n");
     } else {
-      console.log("\n⏹️  Generation cancelled. Baseline not updated.");
+      console.log("\n⏹️  Generation cancelled. swagger.json not updated.");
       process.exit(1);
     }
   } catch (error) {
-    console.error("❌ Error validating Swagger:", error);
+    console.error("❌ Error during Swagger validation:", error);
     process.exit(1);
   }
 }

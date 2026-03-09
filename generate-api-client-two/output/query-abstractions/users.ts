@@ -4,13 +4,13 @@ import { Api, UserInput, UsersUpdateParams } from "../Api";
 
 type UsersService = Api<any>["usersService"];
 
-const QUERY_KEYS = {
+export const QUERY_KEYS_USERS = {
       usersList: ["usersList", ] as const,
       };
 
 export const usersListOptions = (service: UsersService) =>
   queryOptions({
-    queryKey: QUERY_KEYS.usersList,
+    queryKey: QUERY_KEYS_USERS.usersList,
     queryFn: () => service.usersList(),
   });
 

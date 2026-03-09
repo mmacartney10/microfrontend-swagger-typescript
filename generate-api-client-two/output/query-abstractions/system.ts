@@ -4,13 +4,13 @@ import { Api } from "../Api";
 
 type System = Api<any>["system"];
 
-const QUERY_KEYS = {
+export const QUERY_KEYS_SYSTEM = {
       healthList: ["healthList", ] as const,
   };
 
 export const healthListOptions = (service: System) =>
   queryOptions({
-    queryKey: QUERY_KEYS.healthList,
+    queryKey: QUERY_KEYS_SYSTEM.healthList,
     queryFn: () => service.healthList(),
   });
 

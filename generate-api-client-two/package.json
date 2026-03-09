@@ -1,5 +1,5 @@
 {
-  "name": "@swagger-ts/api-client",
+  "name": "@swagger-ts/api-client-two",
   "version": "1.0.0",
   "description": "Generated TypeScript API client from Swagger documentation",
   "main": "dist/index.js",

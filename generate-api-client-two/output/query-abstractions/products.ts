@@ -4,14 +4,14 @@ import { Api, ProductInput, ProductsDetailParams, ProductsUpdateParams } from ".
 
 type ProductsService = Api<any>["productsService"];
 
-const QUERY_KEYS = {
+export const QUERY_KEYS_PRODUCTS = {
       productsList: ["productsList", ] as const,
           productsDetail: (id: string) => ["productsDetail", id] as const,
     };
 
 export const productsListOptions = (service: ProductsService) =>
   queryOptions({
-    queryKey: QUERY_KEYS.productsList,
+    queryKey: QUERY_KEYS_PRODUCTS.productsList,
     queryFn: () => service.productsList(),
   });
 
@@ -29,7 +29,7 @@ export const productsCreateOptions = (service: ProductsService) =>
 
 export const productsDetailOptions = (service: ProductsService, params: ProductsDetailParams) =>
   queryOptions({
-    queryKey: QUERY_KEYS.productsDetail(params.id),
+    queryKey: QUERY_KEYS_PRODUCTS.productsDetail(params.id),
     queryFn: () => service.productsDetail(params),
   });
 

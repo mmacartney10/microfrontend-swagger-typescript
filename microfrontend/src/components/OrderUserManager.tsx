@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { User, OrderInput, UserInput } from "@swagger-ts/api-client-two";
 import {
   useOrdersList,
   useOrdersCreate,
@@ -6,24 +7,17 @@ import {
   useUsersList,
   useUsersCreate,
   useUsersUpdate,
-  User,
-  OrderInput,
-  UserInput,
-} from "@swagger-ts/api-client";
-import { ordersService, usersService } from "../services/api";
+} from "../hooks";
 
 const OrderUserManager: React.FC = () => {
-  const { data: orders, isLoading: ordersLoading } =
-    useOrdersList(ordersService);
-  const { data: users, isLoading: usersLoading } = useUsersList(usersService);
+  const { data: orders, isLoading: ordersLoading } = useOrdersList();
+  const { data: users, isLoading: usersLoading } = useUsersList();
   const [selectedOrderId, setSelectedOrderId] = useState<string>("");
-  const { data: selectedOrder } = useOrdersDetail(ordersService, {
-    id: selectedOrderId,
-  });
+  const { data: selectedOrder } = useOrdersDetail({ id: selectedOrderId });
 
-  const createOrder = useOrdersCreate(ordersService);
-  const createUser = useUsersCreate(usersService);
-  const updateUser = useUsersUpdate(usersService);
+  const createOrder = useOrdersCreate();
+  const createUser = useUsersCreate();
+  const updateUser = useUsersUpdate();
 
   const handleCreateOrder = () => {
     const newOrder: OrderInput = {
