@@ -4,7 +4,8 @@ import * as fs from "node:fs";
 import { SERVICES_METADATA, ServiceConfig } from "../output/services-metadata";
 import { Eta } from "eta";
 
-const outputDir = path.resolve(process.cwd(), "./output");
+const outputDir =
+  process.env.OUTPUT_DIR || path.resolve(process.cwd(), "./output");
 const templatesDir = path.resolve(__dirname, "./templates");
 const queryAbstractionsDir = path.resolve(outputDir, "./query-abstractions");
 

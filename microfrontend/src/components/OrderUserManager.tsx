@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User, OrderInput, UserInput } from "@swagger-ts/api-client-two";
+import { User, OrderInput, UserInput } from "../@swagger-ts";
 import {
   useOrdersList,
   useOrdersCreate,

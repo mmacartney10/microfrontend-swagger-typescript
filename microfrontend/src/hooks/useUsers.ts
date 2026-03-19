@@ -5,7 +5,7 @@ import {
   usersUpdateOptions,
   UserInput,
   QUERY_KEYS_USERS,
-} from "@swagger-ts/api-client-two";
+} from "../@swagger-ts";
 import { usersService } from "../services/api";
 
 export const useUsersList = () => {

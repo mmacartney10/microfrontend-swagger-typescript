@@ -6,7 +6,8 @@
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "watch": "webpack --watch",
-    "serve": "webpack serve"
+    "serve": "webpack serve",
+    "generate:api": "swagger-ts generate --swagger-url=http://localhost:4000/swagger.json --output=src/@swagger-ts"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",

@@ -5,7 +5,7 @@ import {
   tasksUpdateOptions,
   TaskInput,
   QUERY_KEYS_TASKS,
-} from "@swagger-ts/api-client-two";
+} from "../@swagger-ts";
 import { tasksService } from "../services/api";
 
 export const useTasksList = () => {

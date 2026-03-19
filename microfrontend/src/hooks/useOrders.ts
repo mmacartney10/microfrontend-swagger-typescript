@@ -6,7 +6,7 @@ import {
   OrderInput,
   OrdersDetailParams,
   QUERY_KEYS_ORDERS,
-} from "@swagger-ts/api-client-two";
+} from "../@swagger-ts";
 import { ordersService } from "../services/api";
 
 export const useOrdersList = () => {

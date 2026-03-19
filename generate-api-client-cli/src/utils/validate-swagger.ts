@@ -3,20 +3,15 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import * as readline from "node:readline";
 
-const SWAGGER_URL = process.env.SWAGGER_DOCS_URL as string;
-const OUTPUT_DIR =
-  process.env.OUTPUT_DIR || path.resolve(process.cwd(), "./output");
-const SWAGGER_PATH = path.resolve(OUTPUT_DIR, "./swagger.json");
-
 interface DiffResult {
   added: string[];
   removed: string[];
   modified: string[];
 }
 
-async function fetchSwagger(): Promise<any> {
-  console.log(`📡 Fetching Swagger from ${SWAGGER_URL}...`);
-  const response = await fetch(SWAGGER_URL);
+async function fetchSwagger(swaggerUrl: string): Promise<any> {
+  console.log(`📡 Fetching Swagger from ${swaggerUrl}...`);
+  const response = await fetch(swaggerUrl);
   if (!response.ok) {
     throw new Error(`Failed to fetch Swagger: ${response.statusText}`);
   }
@@ -76,7 +71,17 @@ function promptUser(question: string): Promise<string> {
   });
 }
 
-async function validateSwagger(): Promise<void> {
+async function validateSwagger(
+  swaggerUrl?: string,
+  outputDir?: string,
+): Promise<void> {
+  const SWAGGER_URL = swaggerUrl || (process.env.SWAGGER_DOCS_URL as string);
+  const OUTPUT_DIR =
+    outputDir ||
+    process.env.OUTPUT_DIR ||
+    path.resolve(process.cwd(), "./output");
+  const SWAGGER_PATH = path.resolve(OUTPUT_DIR, "./swagger.json");
+
   try {
     // Ensure output directory exists
     if (!fs.existsSync(OUTPUT_DIR)) {
@@ -84,7 +89,7 @@ async function validateSwagger(): Promise<void> {
     }
 
     // Fetch swagger from URL
-    const fetchedSwagger = await fetchSwagger();
+    const fetchedSwagger = await fetchSwagger(SWAGGER_URL);
 
     // Check if swagger.json exists
     if (!fs.existsSync(SWAGGER_PATH)) {
@@ -166,4 +171,10 @@ async function validateSwagger(): Promise<void> {
   }
 }
 
-validateSwagger();
+// Export the function
+export { validateSwagger };
+
+// If run directly, use environment variables
+if (import.meta.url === `file://${process.argv[1]}`) {
+  validateSwagger();
+}

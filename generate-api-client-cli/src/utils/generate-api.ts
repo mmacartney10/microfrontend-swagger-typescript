@@ -1,17 +1,9 @@
 import "dotenv/config";
 import * as path from "node:path";
 import * as process from "node:process";
-import * as fs from "node:fs";
 import { generateApi } from "swagger-typescript-api";
 
-async function generateTypeScript() {
-  const outputDir =
-    process.env.OUTPUT_DIR || path.resolve(process.cwd(), "./output");
-
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
-
+async function generateTypeScript(outputDir: string): Promise<void> {
   await generateApi({
     addReadonly: false,
     extractEnums: false,
@@ -23,17 +15,26 @@ async function generateTypeScript() {
     generateUnionEnums: false,
     httpClientType: "fetch",
     moduleNameFirstTag: true,
-    output: outputDir,
+    output: path.resolve(process.cwd(), outputDir),
     silent: true,
-    templates: path.resolve(process.cwd(), "./templates"),
     extraTemplates: [
       {
         name: "services-metadata",
-        path: "./src/templates/services-metadata.eta",
+        path: path.resolve(
+          process.cwd(),
+          "./src/utils/templates/services-metadata.eta",
+        ),
       },
+      // {
+      //   name: "services-metadata.json",
+      //   path: path.resolve(
+      //     process.cwd(),
+      //     "./src/utils/templates/services-metadata.json.eta",
+      //   ),
+      // },
     ],
     input: path.resolve(outputDir, "./swagger.json"),
   });
 }
 
-generateTypeScript().catch(console.error);
+export { generateTypeScript };

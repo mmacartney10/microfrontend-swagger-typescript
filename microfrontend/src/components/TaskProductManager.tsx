@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Task, TaskInput, ProductInput } from "@swagger-ts/api-client-two";
+import { Task, TaskInput, ProductInput } from "../@swagger-ts";
 import {
   useTasksList,
   useTasksCreate,

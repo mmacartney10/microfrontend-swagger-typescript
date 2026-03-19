@@ -6,7 +6,7 @@ import {
   ProductInput,
   ProductsDetailParams,
   QUERY_KEYS_PRODUCTS,
-} from "@swagger-ts/api-client-two";
+} from "../@swagger-ts";
 import { productsService } from "../services/api";
 
 export const useProductsList = () => {

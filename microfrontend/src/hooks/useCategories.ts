@@ -4,7 +4,7 @@ import {
   categoriesCreateOptions,
   categoriesDeleteOptions,
   QUERY_KEYS_CATEGORIES,
-} from "@swagger-ts/api-client-two";
+} from "../@swagger-ts";
 import { categoriesService } from "../services/api";
 
 export const useCategoriesList = () => {

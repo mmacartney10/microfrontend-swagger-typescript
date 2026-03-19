@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { healthListOptions } from "@swagger-ts/api-client-two";
+import { healthListOptions } from "../@swagger-ts";
 import { system } from "../services/api";
 
 export const useHealthList = () => {

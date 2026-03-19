@@ -1,0 +1,40 @@
+<%
+const services = {};
+
+it.routes.combined.forEach(service => {
+  const serviceName = service.name || service.moduleName;
+  
+  if (!services[serviceName]) {
+    services[serviceName] = {
+      name: serviceName.replace('Service', '').charAt(0).toUpperCase() + serviceName.replace('Service', '').slice(1),
+      serviceName: serviceName,
+      routes: []
+    };
+  }
+
+  service.routes.forEach(route => {
+    const namespace = route.namespace;
+    const methodName = route.routeName.usage;
+    const httpMethod = route.request.method.toLowerCase();
+
+    const pathParams = (route.request.parameters || []).map(param => ({
+      name: param.name,
+      type: param.type || 'string',
+      optional: param.optional || false
+    }));
+
+    const requestBodyType = route.request.payload ? route.request.payload.type : null;
+    const requestParamsType = route.request.requestParams ? route.request.requestParams.typeName : null;
+
+    services[serviceName].routes.push({
+      method: methodName,
+      httpMethod: httpMethod,
+      pathParams: pathParams,
+      requestBodyType: requestBodyType,
+      requestParamsType: requestParamsType
+    });
+  });
+});
+
+const serviceConfigs = Object.values(services);
+%><%~ JSON.stringify(serviceConfigs, null, 2) %>

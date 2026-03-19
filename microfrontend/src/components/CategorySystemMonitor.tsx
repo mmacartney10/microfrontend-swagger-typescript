@@ -1,5 +1,5 @@
 import React from "react";
-import { CategoryInput } from "@swagger-ts/api-client-two";
+import { CategoryInput } from "../@swagger-ts";
 import {
   useCategoriesList,
   useCategoriesCreate,
