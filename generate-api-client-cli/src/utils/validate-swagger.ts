@@ -21,7 +21,6 @@ async function fetchSwagger(swaggerUrl: string): Promise<any> {
 function compareObjects(baseline: any, current: any, path = ""): DiffResult {
   const diff: DiffResult = { added: [], removed: [], modified: [] };
 
-  // Find removed and modified
   for (const key in baseline) {
     const currentPath = path ? `${path}.${key}` : key;
 
@@ -46,7 +45,6 @@ function compareObjects(baseline: any, current: any, path = ""): DiffResult {
     }
   }
 
-  // Find added
   for (const key in current) {
     const currentPath = path ? `${path}.${key}` : key;
     if (!(key in baseline)) {
@@ -83,15 +81,12 @@ async function validateSwagger(
   const SWAGGER_PATH = path.resolve(OUTPUT_DIR, "./swagger.json");
 
   try {
-    // Ensure output directory exists
     if (!fs.existsSync(OUTPUT_DIR)) {
       fs.mkdirSync(OUTPUT_DIR, { recursive: true });
     }
 
-    // Fetch swagger from URL
     const fetchedSwagger = await fetchSwagger(SWAGGER_URL);
 
-    // Check if swagger.json exists
     if (!fs.existsSync(SWAGGER_PATH)) {
       console.log("\n⚠️  No swagger.json found. This is the first run.");
       fs.writeFileSync(SWAGGER_PATH, JSON.stringify(fetchedSwagger, null, 2));
@@ -100,13 +95,10 @@ async function validateSwagger(
       return;
     }
 
-    // Load existing swagger.json
     const existingSwagger = JSON.parse(fs.readFileSync(SWAGGER_PATH, "utf-8"));
 
-    // Compare
     const diff = compareObjects(existingSwagger, fetchedSwagger);
 
-    // Check if there are changes
     const hasChanges =
       diff.added.length > 0 ||
       diff.removed.length > 0 ||
@@ -118,7 +110,6 @@ async function validateSwagger(
       return;
     }
 
-    // Display changes
     console.log("\n🔍 Swagger changes detected:\n");
 
     if (diff.added.length > 0) {
@@ -152,7 +143,6 @@ async function validateSwagger(
       `📊 Summary: ${diff.added.length} added, ${diff.removed.length} removed, ${diff.modified.length} modified\n`,
     );
 
-    // Prompt for confirmation
     const answer = await promptUser(
       "Do you want to proceed with these changes? (yes/no): ",
     );
@@ -171,10 +161,4 @@ async function validateSwagger(
   }
 }
 
-// Export the function
 export { validateSwagger };
-
-// If run directly, use environment variables
-if (import.meta.url === `file://${process.argv[1]}`) {
-  validateSwagger();
-}

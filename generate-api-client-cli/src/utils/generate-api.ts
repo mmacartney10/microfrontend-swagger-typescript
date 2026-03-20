@@ -25,13 +25,6 @@ async function generateTypeScript(outputDir: string): Promise<void> {
           "./src/utils/templates/services-metadata.eta",
         ),
       },
-      // {
-      //   name: "services-metadata.json",
-      //   path: path.resolve(
-      //     process.cwd(),
-      //     "./src/utils/templates/services-metadata.json.eta",
-      //   ),
-      // },
     ],
     input: path.resolve(outputDir, "./swagger.json"),
   });
