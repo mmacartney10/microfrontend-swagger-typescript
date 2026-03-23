@@ -7,6 +7,7 @@ export interface DiffResult {
   added: string[];
   removed: string[];
   modified: string[];
+  hasChanges: boolean;
 }
 
 export interface AuthConfig {

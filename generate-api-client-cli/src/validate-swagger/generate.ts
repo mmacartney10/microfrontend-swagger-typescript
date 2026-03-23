@@ -1,12 +1,14 @@
 import "dotenv/config";
 import * as fs from "node:fs";
 import * as path from "node:path";
-import * as readline from "node:readline";
+import inquirer from "inquirer";
+import { Ora } from "ora";
 
 import { DiffResult } from "../types.js";
+import chalk from "chalk";
 
 async function fetchSwagger(swaggerUrl: string): Promise<any> {
-  console.log(`📡 Fetching Swagger from ${swaggerUrl}...`);
+  console.log(chalk.yellow(`\nFetching Swagger docs from ${swaggerUrl}\n`));
 
   const headers: HeadersInit = {
     "Content-Type": "application/json",
@@ -23,7 +25,12 @@ async function fetchSwagger(swaggerUrl: string): Promise<any> {
 }
 
 function compareObjects(baseline: any, current: any, path = ""): DiffResult {
-  const diff: DiffResult = { added: [], removed: [], modified: [] };
+  const diff: DiffResult = {
+    added: [],
+    removed: [],
+    modified: [],
+    hasChanges: false,
+  };
 
   for (const key in baseline) {
     const currentPath = path ? `${path}.${key}` : key;
@@ -40,6 +47,7 @@ function compareObjects(baseline: any, current: any, path = ""): DiffResult {
         }
       } else {
         const nested = compareObjects(baseline[key], current[key], currentPath);
+
         diff.added.push(...nested.added);
         diff.removed.push(...nested.removed);
         diff.modified.push(...nested.modified);
@@ -56,102 +64,105 @@ function compareObjects(baseline: any, current: any, path = ""): DiffResult {
     }
   }
 
-  return diff;
+  return {
+    ...diff,
+    hasChanges:
+      diff.added.length > 0 ||
+      diff.removed.length > 0 ||
+      diff.modified.length > 0,
+  };
 }
 
-function promptUser(question: string): Promise<string> {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
+async function promptUserAcceptChanges(): Promise<boolean> {
+  const answer = await inquirer.prompt([
+    {
+      type: "confirm",
+      name: "acceptChanges",
+      message: "Do you want to proceed with these changes?",
+      default: false,
+    },
+  ]);
 
-  return new Promise((resolve) => {
-    rl.question(question, (answer) => {
-      rl.close();
-      resolve(answer.toLowerCase().trim());
-    });
-  });
+  return answer.acceptChanges;
 }
+
+function handleFirstRun(
+  swaggerPath: string,
+  swaggerData: any,
+  outputDir: string,
+): boolean {
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+
+  if (fs.existsSync(swaggerPath)) {
+    return false;
+  }
+
+  fs.writeFileSync(swaggerPath, JSON.stringify(swaggerData, null, 2));
+  console.log(`Generated ${chalk.cyan("swagger.json")}\n`);
+
+  return true;
+}
+
+const logFileChanges = (changeList: string[]) => {
+  if (changeList.length > 0) {
+    console.log("Added paths:");
+    changeList.forEach((path) => console.log(`   + ${chalk.cyan(path)}`));
+  }
+};
+
+const handleChangesToSwagger = (diff: DiffResult) => {
+  console.log(chalk.yellow("Swagger changes detected:\n"));
+
+  logFileChanges(diff.added);
+  logFileChanges(diff.removed);
+  logFileChanges(diff.modified);
+
+  console.log(
+    `\nSummary: ${diff.added.length} added, ${diff.removed.length} removed, ${diff.modified.length} modified\n`,
+  );
+};
 
 async function validateSwagger(
   outputDir: string,
   swaggerUrl: string,
+  spinner: Ora,
 ): Promise<void> {
-  const SWAGGER_PATH = path.resolve(outputDir, "./swagger.json");
+  const swaggerPath = path.resolve(outputDir, "./swagger.json");
 
   try {
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
-
     const fetchedSwagger = await fetchSwagger(swaggerUrl);
+    const isFirstRun = handleFirstRun(swaggerPath, fetchedSwagger, outputDir);
 
-    if (!fs.existsSync(SWAGGER_PATH)) {
-      console.log("\n⚠️  No swagger.json found. This is the first run.");
-      fs.writeFileSync(SWAGGER_PATH, JSON.stringify(fetchedSwagger, null, 2));
-      console.log(`✅ Created swagger.json at ${SWAGGER_PATH}`);
-      console.log("\n✨ Proceeding with generation...\n");
+    if (isFirstRun) {
       return;
     }
 
-    const existingSwagger = JSON.parse(fs.readFileSync(SWAGGER_PATH, "utf-8"));
-
+    const existingSwagger = JSON.parse(fs.readFileSync(swaggerPath, "utf-8"));
     const diff = compareObjects(existingSwagger, fetchedSwagger);
 
-    const hasChanges =
-      diff.added.length > 0 ||
-      diff.removed.length > 0 ||
-      diff.modified.length > 0;
-
-    if (!hasChanges) {
-      console.log("\n✅ No changes detected in Swagger spec.");
-      console.log("✨ Proceeding with generation...\n");
+    if (!diff.hasChanges) {
+      console.log(chalk.green("No changes detected in Swagger spec.\n"));
       return;
     }
 
-    console.log("\n🔍 Swagger changes detected:\n");
+    handleChangesToSwagger(diff);
 
-    if (diff.added.length > 0) {
-      console.log("✅ Added paths:");
-      diff.added.slice(0, 20).forEach((p) => console.log(`   + ${p}`));
-      if (diff.added.length > 20) {
-        console.log(`   ... and ${diff.added.length - 20} more`);
-      }
-      console.log();
-    }
+    spinner.stop();
 
-    if (diff.removed.length > 0) {
-      console.log("❌ Removed paths:");
-      diff.removed.slice(0, 20).forEach((p) => console.log(`   - ${p}`));
-      if (diff.removed.length > 20) {
-        console.log(`   ... and ${diff.removed.length - 20} more`);
-      }
-      console.log();
-    }
+    const accepted = await promptUserAcceptChanges();
 
-    if (diff.modified.length > 0) {
-      console.log("🔄 Modified paths:");
-      diff.modified.slice(0, 20).forEach((p) => console.log(`   ~ ${p}`));
-      if (diff.modified.length > 20) {
-        console.log(`   ... and ${diff.modified.length - 20} more`);
-      }
-      console.log();
-    }
+    spinner.start();
 
-    console.log(
-      `📊 Summary: ${diff.added.length} added, ${diff.removed.length} removed, ${diff.modified.length} modified\n`,
-    );
-
-    const answer = await promptUser(
-      "Do you want to proceed with these changes? (yes/no): ",
-    );
-
-    if (answer === "yes" || answer === "y") {
-      fs.writeFileSync(SWAGGER_PATH, JSON.stringify(fetchedSwagger, null, 2));
-      console.log("\n✅ swagger.json updated.");
-      console.log("✨ Proceeding with generation...\n");
+    if (accepted) {
+      fs.writeFileSync(swaggerPath, JSON.stringify(fetchedSwagger, null, 2));
+      console.log(chalk.green("\n✅ swagger.json updated."));
+      console.log(chalk.cyan("✨ Proceeding with generation...\n"));
     } else {
-      console.log("\n⏹️  Generation cancelled. swagger.json not updated.");
+      console.log(
+        chalk.red("\n⏹️  Generation cancelled. swagger.json not updated."),
+      );
       process.exit(1);
     }
   } catch (error) {
