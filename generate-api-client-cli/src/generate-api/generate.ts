@@ -3,6 +3,8 @@ import * as path from "node:path";
 import * as process from "node:process";
 import { generateApi } from "swagger-typescript-api";
 
+import content from "./content.js";
+
 async function generateTypeScript(outputDir: string): Promise<void> {
   await generateApi({
     addReadonly: false,
@@ -22,12 +24,15 @@ async function generateTypeScript(outputDir: string): Promise<void> {
         name: "services-metadata",
         path: path.resolve(
           process.cwd(),
-          "./src/utils/templates/services-metadata.eta",
+          "./src/templates/services-metadata.eta",
         ),
       },
     ],
     input: path.resolve(outputDir, "./swagger.json"),
   });
+
+  console.log(content.generateApi);
+  console.log(content.generateServicesMetadata);
 }
 
 export { generateTypeScript };

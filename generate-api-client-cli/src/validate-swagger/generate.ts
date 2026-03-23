@@ -3,17 +3,21 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import * as readline from "node:readline";
 
-interface DiffResult {
-  added: string[];
-  removed: string[];
-  modified: string[];
-}
+import { DiffResult } from "../types.js";
 
 async function fetchSwagger(swaggerUrl: string): Promise<any> {
   console.log(`📡 Fetching Swagger from ${swaggerUrl}...`);
-  const response = await fetch(swaggerUrl);
+
+  const headers: HeadersInit = {
+    "Content-Type": "application/json",
+  };
+
+  const response = await fetch(swaggerUrl, { headers });
+
   if (!response.ok) {
-    throw new Error(`Failed to fetch Swagger: ${response.statusText}`);
+    throw new Error(
+      `Failed to fetch Swagger: ${response.status} ${response.statusText}`,
+    );
   }
   return response.json();
 }
@@ -70,22 +74,17 @@ function promptUser(question: string): Promise<string> {
 }
 
 async function validateSwagger(
-  swaggerUrl?: string,
-  outputDir?: string,
+  outputDir: string,
+  swaggerUrl: string,
 ): Promise<void> {
-  const SWAGGER_URL = swaggerUrl || (process.env.SWAGGER_DOCS_URL as string);
-  const OUTPUT_DIR =
-    outputDir ||
-    process.env.OUTPUT_DIR ||
-    path.resolve(process.cwd(), "./output");
-  const SWAGGER_PATH = path.resolve(OUTPUT_DIR, "./swagger.json");
+  const SWAGGER_PATH = path.resolve(outputDir, "./swagger.json");
 
   try {
-    if (!fs.existsSync(OUTPUT_DIR)) {
-      fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
     }
 
-    const fetchedSwagger = await fetchSwagger(SWAGGER_URL);
+    const fetchedSwagger = await fetchSwagger(swaggerUrl);
 
     if (!fs.existsSync(SWAGGER_PATH)) {
       console.log("\n⚠️  No swagger.json found. This is the first run.");

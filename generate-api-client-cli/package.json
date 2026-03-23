@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc && npm run copy-templates",
-    "copy-templates": "cp -r src/utils/templates dist/src/utils/",
+    "copy-templates": "cp -r src/templates dist/src/",
     "start": "node dist/bin/index.js",
     "dev": "npm run build && node dist/bin/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
