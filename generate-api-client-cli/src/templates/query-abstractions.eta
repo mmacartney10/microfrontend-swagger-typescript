@@ -9,7 +9,7 @@ export const QUERY_KEYS_<%= it.name.toUpperCase() %> = {
 <% for (let route of it.routes) { %>
   <% if (route.httpMethod === "get") { %>
   <% const keyName = route.method; %>
-  <%= keyName %>: <% if (route.pathParams.length > 0) { %>(<%= route.pathParams.map(p => `${p.name}: string`).join(", ") %>) => <% } %>["<%= route.method %>", <%= route.pathParams.map(p => p.name).join(", ") %>] as const,
+  <%= keyName %>: <% if (route.pathParams.length > 0) { %>(<%= route.pathParams.map(p => `${p.name}: string`).join(", ") %>) => <% } %>["<%= route.method %>"<% if (route.pathParams.length > 0) { %>, <%= route.pathParams.map(p => p.name).join(", ") %><% } %>] as const,
   <% } %>
 <% } %>
 };

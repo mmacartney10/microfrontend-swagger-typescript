@@ -27,10 +27,7 @@ async function loadServicesMetadata(filePath: string) {
   return module;
 }
 
-const outputDir =
-  process.env.OUTPUT_DIR || path.resolve(process.cwd(), "./output");
 const templatesDir = path.resolve(process.cwd(), "./src/templates");
-const queryAbstractionsDir = path.resolve(outputDir, "./query-abstractions");
 
 const eta = new Eta();
 
@@ -64,7 +61,10 @@ function getImportTypes(routes: any[]): string[] {
 
 async function generateQueryAbstractionsTwo(
   SERVICES_METADATA: any[],
+  outputDir: string,
 ): Promise<void> {
+  const queryAbstractionsDir = path.resolve(outputDir, "./query-abstractions");
+
   if (!fs.existsSync(queryAbstractionsDir)) {
     fs.mkdirSync(queryAbstractionsDir, { recursive: true });
   }
@@ -106,7 +106,7 @@ async function generateQueryAbstractions(outputDir: string): Promise<void> {
       throw new Error(content.notArrayError(typeof SERVICES_METADATA));
     }
 
-    await generateQueryAbstractionsTwo(SERVICES_METADATA);
+    await generateQueryAbstractionsTwo(SERVICES_METADATA, outputDir);
   } catch (error) {
     console.error(content.generateFailure, error);
     throw error;

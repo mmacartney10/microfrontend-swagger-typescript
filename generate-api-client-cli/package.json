@@ -7,7 +7,9 @@
     "copy-templates": "cp -r src/templates dist/src/",
     "start": "node dist/bin/index.js",
     "dev": "npm run build && node dist/bin/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run build && vitest run",
+    "test:watch": "npm run build && vitest",
+    "test:coverage": "npm run build && vitest run --coverage"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +19,7 @@
     "commander": "^14.0.3",
     "esbuild": "^0.27.4",
     "eta": "^3.2.0",
+    "execa": "^9.6.1",
     "inquirer": "^13.3.0",
     "ora": "^9.3.0",
     "swagger-typescript-api": "^13.0.3"
@@ -24,7 +27,10 @@
   "devDependencies": {
     "@types/inquirer": "^9.0.7",
     "@types/node": "^20.19.37",
-    "typescript": "^5.3.3"
+    "@vitest/coverage-v8": "^4.1.1",
+    "typescript": "^5.3.3",
+    "undici": "^6.6.2",
+    "vitest": "^4.1.1"
   },
   "bin": {
     "my-node-cli": "./dist/bin/index.js"
