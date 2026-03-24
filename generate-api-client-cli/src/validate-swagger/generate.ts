@@ -157,8 +157,7 @@ async function validateSwagger(
 
     if (accepted) {
       fs.writeFileSync(swaggerPath, JSON.stringify(fetchedSwagger, null, 2));
-      console.log(chalk.green("\n✅ swagger.json updated."));
-      console.log(chalk.cyan("✨ Proceeding with generation...\n"));
+      console.log(`\nUpdated ${chalk.cyan("swagger.json")}\n`);
     } else {
       console.log(
         chalk.red("\n⏹️  Generation cancelled. swagger.json not updated."),
